@@ -1,5 +1,10 @@
 const $=id=>document.getElementById(id);
-const state={cat:'Besoins',favs:JSON.parse(localStorage.taqvoxFavs||'[]'),serverUrl:localStorage.ttsServerUrl||'',hfToken:localStorage.hfToken||''};
+
+// Quand le serveur cloud sera prêt, remplace seulement cette adresse.
+// Exemple: const CLOUD_TTS_URL='https://ton-serveur.com/tts';
+const CLOUD_TTS_URL='';
+
+const state={cat:'Besoins',favs:JSON.parse(localStorage.taqvoxFavs||'[]')};
 const data={
  'Besoins':['Bɣiɣ aman|Je veux de l’eau','Bɣiɣ ad ččeɣ|Je veux manger','Bɣiɣ ad ṭṭseɣ|Je veux dormir','Bɣiɣ lqaḥwa|Je veux un café','Ur bɣiɣ ara|Je ne veux pas','Sers-iyi|Baisse-moi','Sali-yi|Monte-moi'],
  'Douleur':['Tettqessi-yi uqerruy|J’ai mal à la tête','Tettqessi-yi uɛrur|J’ai mal au dos','Tettqessi-yi afus|J’ai mal à la main','Tettqessi-yi uḍar|J’ai mal au pied','Tettqessi-yi aṭas|J’ai très mal','Ssiwel i ṭbib|Appelle le médecin'],
@@ -13,11 +18,36 @@ function renderCats(){ $('categories').innerHTML=Object.keys(data).map(c=>`<butt
 function listPhrases(){return state.cat==='Favoris'?state.favs:data[state.cat]}
 function renderPhrases(){ $('phrases').innerHTML=listPhrases().map(item=>{let [kab,fr]=item.split('|');return `<button class="phrase" data-say="${kab}">${kab}<small>${fr||''}</small></button>`}).join(''); document.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>setAndSpeak(b.dataset.say));}
 function renderKeys(){ const chars='a z e r t y u i o p q s d f g h j k l m w x c v b n ɣ ɛ č ṭ ḍ ṣ ḥ ṛ ž ẓ'.split(' '); $('keyboard').innerHTML=chars.map(k=>`<button class="key" data-k="${k}">${k}</button>`).join('')+`<button class="key" data-k=" ">␣</button><button class="key" data-del="1">⌫</button>`; document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{$('textOut').value+=b.dataset.k; suggest()}); document.querySelector('[data-del]').onclick=()=>{$('textOut').value=$('textOut').value.slice(0,-1);suggest()};}
-function suggest(){ const t=$('textOut').value.toLowerCase().trim(); const all=Object.values(data).flat().concat(state.favs); const res=[...new Set(all)].filter(x=>x.toLowerCase().startsWith(t)&&t.length>0).slice(0,6); $('suggestions').innerHTML=res.map(x=>{let [kab,fr]=x.split('|');return `<button data-sug="${kab}">${kab}</button>`}).join(''); document.querySelectorAll('[data-sug]').forEach(b=>b.onclick=()=>setAndSpeak(b.dataset.sug));}
+function suggest(){ const t=$('textOut').value.toLowerCase().trim(); const all=Object.values(data).flat().concat(state.favs); const res=[...new Set(all)].filter(x=>x.toLowerCase().startsWith(t)&&t.length>0).slice(0,6); $('suggestions').innerHTML=res.map(x=>{let [kab]=x.split('|');return `<button data-sug="${kab}">${kab}</button>`}).join(''); document.querySelectorAll('[data-sug]').forEach(b=>b.onclick=()=>setAndSpeak(b.dataset.sug));}
 async function setAndSpeak(text){$('textOut').value=text; await speak(text)}
-async function speak(text){ $('status').textContent='Préparation de la voix…'; const url=state.serverUrl; if(url){ try{ const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})}); if(!r.ok) throw new Error('TTS local erreur'); const blob=await r.blob(); const audio=new Audio(URL.createObjectURL(blob)); await audio.play(); $('status').textContent='Voix IA kabyle locale utilisée.'; return; }catch(e){ $('status').textContent='Serveur IA non disponible, voix navigateur utilisée.'; }}
- if('speechSynthesis' in window){ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='kab-DZ'; u.rate=.82; u.pitch=1; speechSynthesis.speak(u); } else alert(text); }
+async function speak(text){
+  text=(text||'Azul').trim();
+  $('status').textContent='Préparation de la voix…';
+  if(CLOUD_TTS_URL){
+    try{
+      const r=await fetch(CLOUD_TTS_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})});
+      if(!r.ok) throw new Error('Erreur serveur IA');
+      const blob=await r.blob();
+      const audio=new Audio(URL.createObjectURL(blob));
+      await audio.play();
+      $('status').textContent='Voix IA kabyle cloud utilisée.';
+      return;
+    }catch(e){ $('status').textContent='Serveur IA indisponible, voix iPhone utilisée.'; }
+  }
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='fr-FR';
+    u.rate=.78;
+    u.pitch=1;
+    speechSynthesis.speak(u);
+    $('status').textContent='Voix iPhone provisoire utilisée. La vraie voix IA sera branchée au serveur cloud.';
+  } else alert(text);
+}
 function renderAll(){renderCats();renderPhrases();renderKeys();suggest()}
-$('speakBtn').onclick=()=>speak($('textOut').value||'Azul'); $('clearBtn').onclick=()=>{$('textOut').value='';suggest()}; $('favBtn').onclick=()=>{const v=$('textOut').value.trim(); if(v&&!state.favs.includes(v+'|Favori')){state.favs.unshift(v+'|Favori');localStorage.taqvoxFavs=JSON.stringify(state.favs);renderAll()}};
-$('btnSettings').onclick=()=>{ $('serverUrl').value=state.serverUrl; $('hfToken').value=state.hfToken; $('settingsDialog').showModal()}; $('saveSettings').onclick=e=>{e.preventDefault(); state.serverUrl=$('serverUrl').value.trim(); state.hfToken=$('hfToken').value.trim(); localStorage.ttsServerUrl=state.serverUrl; localStorage.hfToken=state.hfToken; $('settingsDialog').close();};
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{}); renderAll();
+$('speakBtn').onclick=()=>speak($('textOut').value||'Azul');
+$('btnVoice').onclick=()=>speak('Azul, d TaqVox. Aql-i dagi.');
+$('clearBtn').onclick=()=>{$('textOut').value='';suggest()};
+$('favBtn').onclick=()=>{const v=$('textOut').value.trim(); if(v&&!state.favs.includes(v+'|Favori')){state.favs.unshift(v+'|Favori');localStorage.taqvoxFavs=JSON.stringify(state.favs);renderAll()}};
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+renderAll();

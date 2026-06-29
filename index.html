@@ -12,9 +12,9 @@
   <header class="topbar">
     <div>
       <h1>TaqVox Kabyle IA</h1>
-      <p>Communication par les yeux + voix kabyle IA</p>
+      <p>Communication par les yeux + voix kabyle</p>
     </div>
-    <button id="btnSettings" class="pill">⚙️ Voix IA</button>
+    <button id="btnVoice" class="pill">🔊 Test voix</button>
   </header>
 
   <main>
@@ -25,7 +25,7 @@
         <button id="clearBtn">Effacer</button>
         <button id="favBtn">⭐ Favori</button>
       </div>
-      <div id="status" class="status">Mode: voix IA kabyle si configurée, sinon voix navigateur.</div>
+      <div id="status" class="status">Mode iPhone : aucune configuration à remplir. La vraie voix IA sera activée dès que le serveur cloud sera en ligne.</div>
     </section>
 
     <section class="quick emergency">
@@ -43,24 +43,6 @@
       <div id="keyboard" class="keyboard"></div>
     </section>
   </main>
-
-  <dialog id="settingsDialog">
-    <form method="dialog" class="settings">
-      <h2>Configuration vraie voix IA kabyle</h2>
-      <p>Option recommandée: utiliser le modèle <b>facebook/mms-tts-kab</b> via un petit serveur local fourni dans le dossier <code>server</code>.</p>
-      <label>URL du serveur TTS local
-        <input id="serverUrl" placeholder="http://127.0.0.1:7860/tts" />
-      </label>
-      <label>Token Hugging Face optionnel
-        <input id="hfToken" placeholder="hf_..." type="password" />
-      </label>
-      <p class="note">Sans serveur, l’application essaie la voix du navigateur. Pour une vraie voix kabyle IA, lance le serveur Python sur PC.</p>
-      <div class="actions">
-        <button id="saveSettings" value="default" class="primary">Enregistrer</button>
-        <button value="cancel">Fermer</button>
-      </div>
-    </form>
-  </dialog>
 
   <script src="app.js"></script>
 </body>
