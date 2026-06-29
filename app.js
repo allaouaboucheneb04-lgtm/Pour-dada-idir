@@ -73,10 +73,11 @@ function toKabyleInternal(text){
 
 // 2) Texte phonétique pour la voix iPhone/Windows.
 // IMPORTANT : on ne lit plus lettre par lettre. On utilise d'abord un dictionnaire.
-// gh = غ ; 3 = ع ; 7 = ح ; 9 = ق ; v = ڤ
+// gh = غ ; 3 = ع ; 7 = ح ; 9 = ق ; V/v reste V/v ; cc = tch
 const voiceDict = {
-  'vghigh':'ڤْغِيغْ',
-  'vghiɣ':'ڤْغِيغْ',
+  'adccagh':'adtchagh',
+  'vghigh':'vْغِيغْ',
+  'vghiɣ':'vْغِيغْ',
   'adgnagh':'ادْڨْناغْ',
   'i9ar7iyi':'إيقارْحِيّي',
   'a3bod':'اعْبودْ',
@@ -120,7 +121,7 @@ function toArabicPhonetic(text){
     // Règles générales si le mot n'est pas encore dans le dictionnaire.
     let t=clean;
     // Ordre obligatoire: gh/ch/kh/dh avant les lettres simples.
-    const rules=[[/gh/g,'غ'],[/kh/g,'خ'],[/ch/g,'ش'],[/dh/g,'ض'],[/3/g,'ع'],[/7/g,'ح'],[/9/g,'ق'],[/v/g,'ڤ']];
+    const rules=[[/cca/g,'tcha'],[/cci/g,'tchi'],[/cc/g,'tch'],[/gh/g,'غ'],[/kh/g,'خ'],[/ch/g,'ش'],[/dh/g,'ض'],[/3/g,'ع'],[/7/g,'ح'],[/9/g,'ق']];
     for(const [a,b] of rules) t=t.replace(a,b);
     const letters={a:'ا',b:'ب',c:'ك',d:'د',e:'ي',f:'ف',g:'ڨ',h:'ه',i:'ي',j:'ج',k:'ك',l:'ل',m:'م',n:'ن',o:'و',p:'پ',q:'ق',r:'ر',s:'س',t:'ت',u:'و',w:'و',x:'خ',y:'ي',z:'ز'};
     return t.split('').map(ch=>letters[ch]||ch).join('');
