@@ -60,7 +60,7 @@ const data={
 function toKabyleInternal(text){
   let t=' '+(text||'')+' ';
   const rules=[
-    [/cca/gi,'tcha'],[/cci/gi,'tchi'],[/cc/gi,'tch'],[/gh/gi,'ɣ'],[/kh/gi,'x'],[/ch/gi,'č'],[/dh/gi,'ẓ'],
+    [/gh/gi,'ɣ'],[/kh/gi,'x'],[/ch/gi,'č'],[/dh/gi,'ḍ'],
     [/3/g,'ɛ'],[/7/g,'ḥ'],[/9/g,'q'],[/V/gi,'v'],
     [/iqarḥiyi/gi,'iqarḥ-iyi'],[/iqar7iyi/gi,'iqarḥ-iyi'],
     [/dewriyi/gi,'dewr-iyi'],[/9a3diyi/gi,'qaɛd-iyi'],[/9aɛdiyi/gi,'qaɛd-iyi'],
@@ -71,19 +71,59 @@ function toKabyleInternal(text){
   return t.trim();
 }
 
-// 2) Texte arabe phonétique pour iPhone. Ce n'est pas parfait, mais meilleur que fr-FR pour gh/3/7/9.
+// 2) Texte voix provisoire (iPhone/Windows).
+// IMPORTANT: l'affichage reste toujours en écriture Sidi Aïch.
+// Ici on prépare seulement un texte caché pour la voix arabe du navigateur.
+// On traite mot par mot pour éviter de mélanger les prononciations.
 function toArabicPhonetic(text){
-  let t=(text||'').toLowerCase();
-  const phraseRules=[
-    [/vghigh/g,'ڤغيغ'],[/vɣigh/g,'ڤغيغ'],[/adgnagh/g,'ادڨناغ'],[/i9ar7iyi/g,'يقارحيي'],
-    [/a3bod/g,'اعبود'],[/i7ma/g,'يحما'],[/dewriyi/g,'دوريي'],[/9a3diyi/g,'قعديي'],
-    [/gh/g,'غ'],[/kh/g,'خ'],[/ch/g,'ش'],[/dh/g,'ظ'],[/3/g,'ع'],[/7/g,'ح'],[/9/g,'ق'],[/v/g,'ڤ']
-  ];
-  for(const [a,b] of phraseRules) t=t.replace(a,b);
-  const letters={a:'ا',b:'ب',c:'ك',d:'د',e:'ي',f:'ف',g:'ڨ',h:'ه',i:'ي',j:'ج',k:'ك',l:'ل',m:'م',n:'ن',o:'و',p:'پ',q:'ق',r:'ر',s:'س',t:'ت',u:'و',w:'و',x:'خ',y:'ي',z:'ز'};
-  return t.split('').map(ch=>letters[ch]||ch).join('').replace(/\s+/g,' ').trim();
-}
+  // VERSION PROPRE V11
+  // On ne convertit PLUS les lettres normales en arabe.
+  // On remplace seulement les sons spéciaux que tu as validés.
+  // IMPORTANT : V reste V. gh reste le son غ. 3 reste le son ع.
 
+  const wordDict={
+    'vghigh':'Vغيغ',      // V reste V, gh = غ
+    'adccagh':'adtchagh', // cc = tch
+    'aghrom':'aغروم',     // gh = غ
+    'adhadh':'aظaظ',      // dh = ظ
+    'i9ar7iyi':'iقارحيي', // 9 = ق, 7 = ح
+    'a3bod':'aعبود',      // 3 = ع
+    'i7ma':'iحma',
+    'asmid':'asmid',
+    'dewriyi':'dewriyi',
+    '9a3diyi':'قaعدiyi',
+    'sma7iyi':'smaحيي'
+  };
+
+  function convertWord(raw){
+    const lower=raw.toLowerCase();
+    if(wordDict[lower]) {
+      // garde la majuscule du V si le mot commence par V
+      if(raw[0] === 'V' && wordDict[lower][0] === 'V') return wordDict[lower];
+      return wordDict[lower];
+    }
+
+    // règles longues d'abord
+    return raw
+      .replace(/cca/gi,'tcha')
+      .replace(/cci/gi,'tchi')
+      .replace(/cc/gi,'tch')
+      .replace(/gh/gi,'غ')
+      .replace(/dh/gi,'ظ')
+      .replace(/kh/gi,'خ')
+      .replace(/ch/gi,'ش')
+      .replace(/3/g,'ع')
+      .replace(/7/g,'ح')
+      .replace(/9/g,'ق');
+  }
+
+  return (text||'')
+    .split(/(\s+)/)
+    .map(part=>/^\s+$/.test(part)?part:convertWord(part))
+    .join('')
+    .replace(/\s+/g,' ')
+    .trim();
+}
 function bestArabicVoice(){
   const voices=speechSynthesis.getVoices ? speechSynthesis.getVoices() : [];
   return voices.find(v=>/^ar/i.test(v.lang)) || voices.find(v=>/arab/i.test(v.name)) || null;
