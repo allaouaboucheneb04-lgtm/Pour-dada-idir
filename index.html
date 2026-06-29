@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>TaqVox Kabyle IA</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>TaqVox Kabyle IA</h1>
+      <p>Communication par les yeux + voix kabyle IA</p>
+    </div>
+    <button id="btnSettings" class="pill">⚙️ Voix IA</button>
+  </header>
+
+  <main>
+    <section class="speakbox">
+      <textarea id="textOut" placeholder="La phrase choisie ou écrite apparaîtra ici…"></textarea>
+      <div class="actions">
+        <button id="speakBtn" class="primary">🔊 Parler</button>
+        <button id="clearBtn">Effacer</button>
+        <button id="favBtn">⭐ Favori</button>
+      </div>
+      <div id="status" class="status">Mode: voix IA kabyle si configurée, sinon voix navigateur.</div>
+    </section>
+
+    <section class="quick emergency">
+      <button data-say="Aɛiɣ! Ssiwlem i ṭbib!" class="danger">🚨 Urgence médecin</button>
+      <button data-say="Ur zmirɣ ara ad neffseɣ." class="danger">🚨 Je respire mal</button>
+      <button data-say="Tettqessi-yi aṭas." class="danger">🚨 J’ai très mal</button>
+    </section>
+
+    <nav id="categories" class="categories"></nav>
+    <section id="phrases" class="phrases"></section>
+
+    <section class="keyboardBox">
+      <h2>Clavier kabyle</h2>
+      <div id="suggestions" class="suggestions"></div>
+      <div id="keyboard" class="keyboard"></div>
+    </section>
+  </main>
+
+  <dialog id="settingsDialog">
+    <form method="dialog" class="settings">
+      <h2>Configuration vraie voix IA kabyle</h2>
+      <p>Option recommandée: utiliser le modèle <b>facebook/mms-tts-kab</b> via un petit serveur local fourni dans le dossier <code>server</code>.</p>
+      <label>URL du serveur TTS local
+        <input id="serverUrl" placeholder="http://127.0.0.1:7860/tts" />
+      </label>
+      <label>Token Hugging Face optionnel
+        <input id="hfToken" placeholder="hf_..." type="password" />
+      </label>
+      <p class="note">Sans serveur, l’application essaie la voix du navigateur. Pour une vraie voix kabyle IA, lance le serveur Python sur PC.</p>
+      <div class="actions">
+        <button id="saveSettings" value="default" class="primary">Enregistrer</button>
+        <button value="cancel">Fermer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
