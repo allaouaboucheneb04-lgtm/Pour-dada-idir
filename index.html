@@ -1,49 +1,174 @@
 <!doctype html>
-<html lang="fr">
+<html lang="kab">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1020" />
-  <title>TaqVox Sidi Aïch Voice V5</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TaqVox Kabyle</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07090f;--surface:#111827;--surface2:#1a2540;--text:#f0f4ff;--muted:#7a8ab0;--accent:#4db8ff;--danger:#e8192c;--ok:#22c55e;}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,"Helvetica Neue",Arial,sans-serif}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:rgba(7,9,15,.97);border-bottom:1px solid #1e2a45;position:sticky;top:0;z-index:20}
+.topbar-title{font-size:24px;font-weight:800;color:var(--accent)}
+#voiceStatus{font-size:14px;padding:7px 14px;background:var(--surface2);border:1px solid #2a3a5c;border-radius:999px;color:var(--muted);transition:color .2s,border-color .2s}
+#voiceStatus.speaking{color:var(--ok);border-color:var(--ok)}
+#voiceStatus.loading{color:var(--accent);border-color:var(--accent)}
+#voiceStatus.error{color:#f87171;border-color:#f87171}
+.active-box{margin:14px;background:var(--surface);border:1px solid #1e2a45;border-radius:22px;padding:20px 22px;min-height:100px;display:flex;flex-direction:column;gap:8px}
+.active-kab{font-size:36px;font-weight:800;line-height:1.2;color:var(--text)}
+.active-fr{font-size:20px;color:var(--muted)}
+.active-placeholder{font-size:22px;color:#2a3a5c;font-style:italic}
+.section-title{padding:10px 18px 6px;font-size:12px;font-weight:800;letter-spacing:2px;color:#2a3a5c;text-transform:uppercase}
+.emergencies{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;padding:0 14px 6px}
+.btn-urg{background:#150608;color:#fff;border:2px solid var(--danger);border-radius:20px;font-size:20px;font-weight:800;padding:18px 16px;min-height:88px;text-align:left;line-height:1.3;cursor:pointer;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;transition:background .15s}
+.btn-urg:hover,.btn-urg:focus{background:var(--danger);outline:none}
+.btn-urg small{font-size:13px;font-weight:400;opacity:.8}
+.urg-label{font-size:11px;font-weight:800;letter-spacing:1px;color:var(--danger);margin-bottom:2px}
+.btn-urg:hover .urg-label,.btn-urg:focus .urg-label{color:#fff}
+.cats{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px 6px}
+.btn-cat{background:var(--surface2);color:var(--muted);border:1px solid #2a3a5c;border-radius:999px;font-size:17px;font-weight:700;padding:12px 20px;min-height:50px;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s}
+.btn-cat.active{background:var(--accent);color:#001020;border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;padding:8px 14px 30px}
+.btn-phrase{background:var(--surface);color:var(--text);border:2px solid #1e2a45;border-radius:20px;font-size:23px;font-weight:700;padding:22px 16px 18px;min-height:110px;text-align:left;line-height:1.3;cursor:pointer;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;transition:border-color .12s,background .12s}
+.btn-phrase small{font-size:14px;font-weight:400;color:var(--muted)}
+.btn-phrase:hover,.btn-phrase:focus{border-color:var(--accent);background:#131e33;outline:none}
+.btn-phrase.selected{border-color:var(--ok);background:#0d1f14}
+.dwell-bar{position:absolute;bottom:0;left:0;height:5px;width:0;background:var(--accent);border-radius:0 0 0 18px;transition:none}
+.btn-phrase.dwelling .dwell-bar{transition:width .85s linear;width:100%}
+.btn-urg .dwell-bar{background:#fff}
+.btn-urg.dwelling .dwell-bar{transition:width .85s linear;width:100%}
+.free-section{padding:0 14px 28px}
+.free-section h3{font-size:15px;color:var(--muted);margin-bottom:10px}
+.free-input{width:100%;background:#07090f;color:var(--text);border:1px solid #2a3a5c;border-radius:14px;padding:14px 16px;font-size:24px;font-family:inherit;margin-bottom:10px}
+.free-input:focus{outline:2px solid var(--accent)}
+.btn-speak-free{background:var(--accent);color:#001020;border:none;border-radius:14px;font-size:20px;font-weight:800;padding:16px 28px;cursor:pointer;min-height:56px}
+@keyframes pulse-ok{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}50%{box-shadow:0 0 0 14px rgba(34,197,94,0)}}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <h1>TaqVox Sidi Aïch Voice V5</h1>
-      <p>Kabyle Sidi Aïch + conversion voix gh/3/7/9</p>
-    </div>
-    <button id="btnVoice" class="pill">🔊 Test voix</button>
-  </header>
+<header class="topbar">
+  <div class="topbar-title">ⵜ TaqVox Kabyle</div>
+  <div id="voiceStatus">🔇 Prêt</div>
+</header>
+<div class="active-box" id="activeBox">
+  <div class="active-placeholder">← Regarde une phrase pour la dire à voix haute</div>
+</div>
+<div class="section-title">🚨 Urgences</div>
+<div class="emergencies" id="emergencies"></div>
+<div class="section-title">Catégories</div>
+<div class="cats" id="cats"></div>
+<div class="grid" id="grid"></div>
+<div class="free-section">
+  <h3>Texte kabyle libre</h3>
+  <input class="free-input" id="freeInput" type="text" placeholder="Écris ici : gh, 3, 7, 9…"/>
+  <button class="btn-speak-free" id="btnFree">🔊 Parler</button>
+</div>
+<script>
+const PHRASES={
+  'Besoins':[['Vghigh aman',"Je veux de l'eau"],['Vghigh ad chegh','Je veux manger'],['Adgnagh','Je veux dormir'],['Ur vghigh ara','Je ne veux pas'],['Asmid',"J'ai froid"],['I7ma',"J'ai chaud"],['Vghigh ad kecmegh','Je veux entrer'],['Vghigh ad ffeghegh','Je veux sortir']],
+  'Douleur':[['I9ar7iyi',"J'ai mal"],['I9ar7iyi uqerruy',"J'ai mal à la tête"],['I9ar7iyi a3bod',"J'ai mal au ventre"],['I9ar7iyi afus',"J'ai mal à la main"],['I9ar7iyi adhar',"J'ai mal à la jambe"],['I9ar7iyi atas',"J'ai très mal"]],
+  'Corps':[['Dewriyi','Retourne-moi'],['9a3diyi','Redresse-moi'],['Sersiyi','Allonge-moi'],['Rfed aqerruy','Lève ma tête'],['Sers aqerruy','Baisse ma tête'],['Beddeliyi amkan','Change ma position']],
+  'Famille':[['Ghar i mama','Appelle maman'],['Ghar i baba','Appelle papa'],['Ghar i gma','Appelle mon frère'],['Ghar i weltma','Appelle ma sœur'],['Qim yidi','Reste avec moi'],['Taliyid','Regarde-moi'],['Ffegh','Sors / laisse-moi']],
+  'Réponses':[['Ih','Oui'],['Ala','Non'],['Tanemmirt','Merci'],['Sma7iyi','Pardon'],['Ma3lich','Pas grave'],['3iwedas','Répète'],['Ur fhimegh',"Je n'ai pas compris"]],
+};
+const URGENCES=[['Ur zmiregh ara ad nefsegh','Je ne peux pas respirer'],['I9ar7iyi atas',"J'ai très mal"],['Ghar i tbib','Appelle le médecin'],['Ghar i samu','Appelle le SAMU']];
 
-  <main>
-    <section class="speakbox">
-      <textarea id="textOut" placeholder="Écris comme WhatsApp : vghigh, gh, 3, 7, 9…"></textarea>
-      <div class="actions">
-        <button id="speakBtn" class="primary">🔊 Parler</button>
-        <button id="clearBtn">Effacer</button>
-        <button id="favBtn">⭐ Favori</button>
-      </div>
-      <div id="status" class="status">Mode iPhone : conversion automatique vers écriture arabe phonétique pour mieux prononcer gh/3/7/9. La vraie voix IA cloud pourra être branchée plus tard.</div>
-    </section>
+const PM=[['vghigh aman','ڤغيغ امان'],['vghigh ad chegh','ڤغيغ اد شيغ'],['vghigh ad kecmegh','ڤغيغ اد كيشميغ'],['vghigh ad ffeghegh','ڤغيغ اد فيغيغ'],['ur vghigh ara','ور ڤغيغ ارا'],['ur zmiregh ara ad nefsegh','ور زميريغ ارا اد نيفسيغ'],['i9ar7iyi uqerruy','يقارحيّ أقيرروي'],['i9ar7iyi a3bod','يقارحيّ اعبود'],['i9ar7iyi afus','يقارحيّ افوس'],['i9ar7iyi adhar','يقارحيّ ادهار'],['i9ar7iyi atas','يقارحيّ اتاس'],['i9ar7iyi','يقارحيّ'],['rfed aqerruy','رفيد أقيرروي'],['sers aqerruy','سيرس أقيرروي'],['beddeliyi amkan','بيدليّ امكان'],['ghar i tbib','غار إ تبيب'],['ghar i samu','غار إ سامو'],['ghar i mama','غار إ ماما'],['ghar i baba','غار إ بابا'],['ghar i gma','غار إ ڨما'],['ghar i weltma','غار إ ولتما'],['qim yidi','قيم ييدي'],['9a3diyi','قاعديّ'],['dewriyi','دوريّ'],['sersiyi','سيرسيّ'],['sma7iyi','سماحيّ'],['ma3lich','ماعليش'],['3iwedas','عيويداس'],['ur fhimegh','ور فهيميغ'],['tanemmirt','تانيميرت'],['taliyid','تاليّيد'],['adgnagh','ادڨناغ'],['asmid','اسميد'],['i7ma','يحما'],['ffegh','فيغ']];
 
-    <section class="quick emergency">
-      <button data-say="Ghar i tbib" class="danger">🚨 Urgence médecin</button>
-      <button data-say="Ur zmiregh ara ad nefsegh" class="danger">🚨 Je respire mal</button>
-      <button data-say="I9ar7iyi atas" class="danger">🚨 J’ai très mal</button>
-    </section>
+function toArabic(t){
+  const l=t.toLowerCase().trim();
+  for(const[k,v]of PM)if(l===k)return v;
+  return l.replace(/gh/g,'غ').replace(/kh/g,'خ').replace(/ch/g,'ش').replace(/dh/g,'ذ')
+    .replace(/3/g,'ع').replace(/7/g,'ح').replace(/9/g,'ق').replace(/v/g,'ڤ')
+    .replace(/a/g,'ا').replace(/b/g,'ب').replace(/d/g,'د').replace(/e/g,'ي')
+    .replace(/f/g,'ف').replace(/g/g,'ڨ').replace(/h/g,'ه').replace(/i/g,'ي')
+    .replace(/j/g,'ج').replace(/k/g,'ك').replace(/l/g,'ل').replace(/m/g,'م')
+    .replace(/n/g,'ن').replace(/o/g,'و').replace(/r/g,'ر').replace(/s/g,'س')
+    .replace(/t/g,'ت').replace(/u/g,'و').replace(/w/g,'و').replace(/y/g,'ي').replace(/z/g,'ز');
+}
 
-    <nav id="categories" class="categories"></nav>
-    <section id="phrases" class="phrases"></section>
+function setStatus(txt,cls){const e=document.getElementById('voiceStatus');e.textContent=txt;e.className=cls||'';}
+function showActive(kab,fr){document.getElementById('activeBox').innerHTML=`<div class="active-kab">${kab}</div><div class="active-fr">${fr||''}</div>`;}
 
-    <section class="keyboardBox">
-      <h2>Clavier kabyle</h2>
-      <div id="suggestions" class="suggestions"></div>
-      <div id="keyboard" class="keyboard"></div>
-    </section>
-  </main>
+let speaking=false;
+async function speak(kab,fr){
+  if(speaking)speechSynthesis.cancel();
+  speaking=true;
+  showActive(kab,fr);
+  setStatus('⏳ Génération…','loading');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:120,
+        messages:[{role:'user',content:`Phrase kabyle : "${kab}" (traduction : "${fr}"). Génère uniquement la transcription phonétique en alphabet arabe pour une voix de synthèse arabe algérienne. Réponds avec les caractères arabes uniquement.`}]
+      })
+    });
+    if(res.ok){const d=await res.json();const ar=d.content?.[0]?.text?.trim();if(ar&&ar.length>0){speakBrowser(ar,'Voix IA');return;}}
+  }catch(e){}
+  speakBrowser(toArabic(kab),'Voix phonétique');
+}
 
-  <script src="app.js"></script>
+function speakBrowser(text,label){
+  if(!('speechSynthesis'in window)){setStatus('❌ Pas de voix','error');speaking=false;return;}
+  speechSynthesis.cancel();
+  const voices=speechSynthesis.getVoices();
+  const v=voices.find(v=>/ar[-_]DZ/i.test(v.lang))||voices.find(v=>/^ar/i.test(v.lang))||voices.find(v=>/arab/i.test(v.name))||null;
+  const u=new SpeechSynthesisUtterance(text);
+  if(v){u.voice=v;u.lang=v.lang;}else u.lang='ar-DZ';
+  u.rate=0.58;u.pitch=1;
+  u.onend=()=>{setStatus('✓ Prêt','');speaking=false;};
+  u.onerror=()=>{setStatus('⚠️ Erreur','error');speaking=false;};
+  setStatus('🔊 '+(label||'En cours…'),'speaking');
+  speechSynthesis.speak(u);
+}
+
+let dwellMap=new Map();
+function attachDwell(btn,kab,fr){
+  btn.addEventListener('mouseenter',()=>{
+    const bar=btn.querySelector('.dwell-bar');
+    if(!bar)return;
+    bar.style.transition='none';bar.style.width='0';
+    void bar.offsetWidth;
+    btn.classList.add('dwelling');
+    const t=setTimeout(()=>{
+      speak(kab,fr);
+      btn.classList.add('selected');
+      setTimeout(()=>btn.classList.remove('selected'),1500);
+    },850);
+    dwellMap.set(btn,t);
+  });
+  btn.addEventListener('mouseleave',()=>{
+    btn.classList.remove('dwelling');
+    const bar=btn.querySelector('.dwell-bar');
+    if(bar){bar.style.transition='none';bar.style.width='0';}
+    clearTimeout(dwellMap.get(btn));dwellMap.delete(btn);
+  });
+  btn.addEventListener('click',()=>speak(kab,fr));
+}
+
+let currentCat='Besoins';
+function renderEmergencies(){
+  const c=document.getElementById('emergencies');
+  c.innerHTML=URGENCES.map(([kab,fr])=>`<button class="btn-urg" data-kab="${kab}" data-fr="${fr}"><span class="urg-label">URGENCE</span>${kab}<small>${fr}</small><div class="dwell-bar"></div></button>`).join('');
+  c.querySelectorAll('.btn-urg').forEach(b=>attachDwell(b,b.dataset.kab,b.dataset.fr));
+}
+function renderCats(){
+  const c=document.getElementById('cats');
+  c.innerHTML=Object.keys(PHRASES).map(cat=>`<button class="btn-cat${currentCat===cat?' active':''}" data-cat="${cat}">${cat}</button>`).join('');
+  c.querySelectorAll('.btn-cat').forEach(b=>b.addEventListener('click',()=>{currentCat=b.dataset.cat;renderCats();renderGrid();}));
+}
+function renderGrid(){
+  const g=document.getElementById('grid');
+  const list=PHRASES[currentCat]||[];
+  g.innerHTML=list.map(([kab,fr])=>`<button class="btn-phrase" data-kab="${kab}" data-fr="${fr}">${kab}<small>${fr}</small><div class="dwell-bar"></div></button>`).join('');
+  g.querySelectorAll('.btn-phrase').forEach(b=>attachDwell(b,b.dataset.kab,b.dataset.fr));
+}
+document.getElementById('btnFree').addEventListener('click',()=>{const t=document.getElementById('freeInput').value.trim();if(t)speak(t,'');});
+if('speechSynthesis'in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}
+renderEmergencies();renderCats();renderGrid();
+</script>
 </body>
 </html>

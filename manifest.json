@@ -1,1 +1,11 @@
-{"name":"TaqVox Kabyle IA","short_name":"TaqVox","start_url":"./index.html","display":"standalone","background_color":"#070b16","theme_color":"#0b1020","icons":[]}
+{
+  "name": "TaqVox Kabyle",
+  "short_name": "TaqVox",
+  "description": "Communication kabyle pour personnes SLA",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07090f",
+  "theme_color": "#07090f",
+  "icons": []
+}
