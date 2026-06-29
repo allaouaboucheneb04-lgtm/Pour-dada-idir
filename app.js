@@ -56,62 +56,63 @@ const data={
  'Favoris':[]
 };
 
-// 1) Dictionnaire exact Sidi Aïch : ce que ton frère voit reste pareil, la voix reçoit une autre écriture.
-// IMPORTANT : les mots complets passent AVANT les petites règles (gh, 7, 9, dh...), sinon ça mélange tout.
+// 1) MOTEUR VOIX PROPRE - Version simple et stable
+// On ne transforme PLUS tout le mot en arabe. C'est ça qui cassait la voix.
+// On garde le mot presque pareil, et on remplace seulement les sons spéciaux.
+
 const WORD_PRONUNCIATION = {
-  'adccagh': { internal:'adtchagh', arabic:'ادتشاغ' },
-  'aghrom': { internal:'aɣrom', arabic:'اغروم' },
-  'adhadh': { internal:'aẓaẓ', arabic:'اظاظ' },
-  'vghigh': { internal:'vɣigh', arabic:'ڤغيغ' },
-  'i9ar7iyi': { internal:'iqarḥiyi', arabic:'يقارحيي' },
-  'a3bod': { internal:'aɛbod', arabic:'اعبود' },
-  'i7ma': { internal:'iḥma', arabic:'يحما' },
-  'adgnagh': { internal:'adgnagh', arabic:'ادڨناغ' },
-  'dewriyi': { internal:'dewriyi', arabic:'دوريي' },
-  '9a3diyi': { internal:'qaɛdiyi', arabic:'قعديي' },
-  'sma7iyi': { internal:'smaḥiyi', arabic:'سماحيي' }
+  // mots exacts corrigés par toi
+  'adccagh': 'adtchagh',   // Adccagh = Adtchagh
+  'Adccagh': 'Adtchagh',
+  'adhadh': 'aظaظ',       // dh = ظ
+  'Adhadh': 'Aظaظ',
+  'aghrom': 'aغروم',      // gh = غ, mais on garde le mot simple
+  'Aghrom': 'Aغروم',
+  'vghigh': 'vغيغ',
+  'Vghigh': 'Vغيغ',
+  'i9ar7iyi': 'iقارحيyi',
+  'I9ar7iyi': 'Iقارحيyi',
+  'a3bod': 'aعبود',
+  'A3bod': 'Aعبود',
+  'i7ma': 'iحma',
+  'I7ma': 'Iحma'
 };
 
-function convertByWords(text, mode){
-  return (text||'').split(/(\s+|[.,!?;:])/).map(part=>{
-    const key=part.toLowerCase();
-    if(WORD_PRONUNCIATION[key]) return WORD_PRONUNCIATION[key][mode];
-    return mode==='arabic' ? toArabicByLetters(part) : toInternalByLetters(part);
-  }).join('');
-}
-
-// 2) Texte interne pour futur moteur IA kabyle.
-function toKabyleInternal(text){
-  return convertByWords(text, 'internal').replace(/\s+/g,' ').trim();
-}
-
-function toInternalByLetters(part){
-  let t=part;
+function replaceSpecialSounds(word){
+  if(WORD_PRONUNCIATION[word]) return WORD_PRONUNCIATION[word];
+  let t=word;
+  // Ordre important : les sons longs AVANT les sons courts.
   const rules=[
-    [/cca/gi,'tcha'], [/cci/gi,'tchi'], [/cc/gi,'tch'],
-    [/gh/gi,'ɣ'], [/dh/gi,'ẓ'], [/kh/gi,'x'], [/ch/gi,'č'],
-    [/3/g,'ɛ'], [/7/g,'ḥ'], [/9/g,'q']
+    [/cca/g,'tcha'], [/Cca/g,'Tcha'], [/CCA/g,'TCHA'],
+    [/cci/g,'tchi'], [/Cci/g,'Tchi'], [/CCI/g,'TCHI'],
+    [/cc/g,'tch'], [/Cc/g,'Tch'], [/CC/g,'TCH'],
+    [/dh/g,'ظ'], [/Dh/g,'ظ'], [/DH/g,'ظ'],
+    [/gh/g,'غ'], [/Gh/g,'غ'], [/GH/g,'غ'],
+    [/kh/g,'خ'], [/Kh/g,'خ'], [/KH/g,'خ'],
+    [/ch/g,'ش'], [/Ch/g,'ش'], [/CH/g,'ش'],
+    [/3/g,'ع'], [/7/g,'ح'], [/9/g,'ق']
   ];
   for(const [a,b] of rules) t=t.replace(a,b);
   return t;
 }
 
-// 3) Texte arabe phonétique pour iPhone/Windows provisoire.
-function toArabicPhonetic(text){
-  return convertByWords(text, 'arabic').replace(/\s+/g,' ').trim();
+function toVoiceText(text){
+  return (text||'')
+    .split(/(\s+|[.,!?;:])/)
+    .map(part=>replaceSpecialSounds(part))
+    .join('')
+    .replace(/\s+/g,' ')
+    .trim();
 }
 
-function toArabicByLetters(part){
-  let t=(part||'').toLowerCase();
-  // Les sons composés passent AVANT les lettres seules.
-  const rules=[
-    [/cca/g,'تشا'], [/cci/g,'تشي'], [/cc/g,'تش'],
-    [/gh/g,'غ'], [/dh/g,'ظ'], [/kh/g,'خ'], [/ch/g,'ش'],
-    [/3/g,'ع'], [/7/g,'ح'], [/9/g,'ق'], [/v/g,'ڤ']
-  ];
-  for(const [a,b] of rules) t=t.replace(a,b);
-  const letters={a:'ا',b:'ب',c:'ك',d:'د',e:'ي',f:'ف',g:'ڨ',h:'ه',i:'ي',j:'ج',k:'ك',l:'ل',m:'م',n:'ن',o:'و',p:'پ',q:'ق',r:'ر',s:'س',t:'ت',u:'و',w:'و',x:'خ',y:'ي',z:'ز'};
-  return t.split('').map(ch=>letters[ch]||ch).join('');
+// Texte interne pour futur vrai moteur IA kabyle.
+function toKabyleInternal(text){
+  return toVoiceText(text);
+}
+
+// Ancien nom gardé pour éviter les bugs dans le reste du code.
+function toArabicPhonetic(text){
+  return toVoiceText(text);
 }
 
 function bestArabicVoice(){
