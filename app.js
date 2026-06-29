@@ -60,7 +60,7 @@ const data={
 function toKabyleInternal(text){
   let t=' '+(text||'')+' ';
   const rules=[
-    [/gh/gi,'ɣ'],[/kh/gi,'x'],[/ch/gi,'č'],[/dh/gi,'ḍ'],
+    [/cca/gi,'tcha'],[/cci/gi,'tchi'],[/cc/gi,'tch'],[/gh/gi,'ɣ'],[/kh/gi,'x'],[/ch/gi,'č'],[/dh/gi,'ẓ'],
     [/3/g,'ɛ'],[/7/g,'ḥ'],[/9/g,'q'],[/V/gi,'v'],
     [/iqarḥiyi/gi,'iqarḥ-iyi'],[/iqar7iyi/gi,'iqarḥ-iyi'],
     [/dewriyi/gi,'dewr-iyi'],[/9a3diyi/gi,'qaɛd-iyi'],[/9aɛdiyi/gi,'qaɛd-iyi'],
@@ -77,7 +77,7 @@ function toArabicPhonetic(text){
   const phraseRules=[
     [/vghigh/g,'ڤغيغ'],[/vɣigh/g,'ڤغيغ'],[/adgnagh/g,'ادڨناغ'],[/i9ar7iyi/g,'يقارحيي'],
     [/a3bod/g,'اعبود'],[/i7ma/g,'يحما'],[/dewriyi/g,'دوريي'],[/9a3diyi/g,'قعديي'],
-    [/gh/g,'غ'],[/kh/g,'خ'],[/ch/g,'ش'],[/dh/g,'ذ'],[/3/g,'ع'],[/7/g,'ح'],[/9/g,'ق'],[/v/g,'ڤ']
+    [/gh/g,'غ'],[/kh/g,'خ'],[/ch/g,'ش'],[/dh/g,'ظ'],[/3/g,'ع'],[/7/g,'ح'],[/9/g,'ق'],[/v/g,'ڤ']
   ];
   for(const [a,b] of phraseRules) t=t.replace(a,b);
   const letters={a:'ا',b:'ب',c:'ك',d:'د',e:'ي',f:'ف',g:'ڨ',h:'ه',i:'ي',j:'ج',k:'ك',l:'ل',m:'م',n:'ن',o:'و',p:'پ',q:'ق',r:'ر',s:'س',t:'ت',u:'و',w:'و',x:'خ',y:'ي',z:'ز'};
