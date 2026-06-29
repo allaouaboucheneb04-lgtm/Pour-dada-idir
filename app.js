@@ -8,7 +8,7 @@ const state={cat:'Besoins',favs:JSON.parse(localStorage.taqvoxFavs||'[]')};
 const data={
  'Besoins':[
   'Vghigh aman|Je veux de l’eau',
-  'Vghigh adccagh|Je veux manger',
+  'Vghigh ad chegh|Je veux manger',
   'Adgnagh|Je veux dormir',
   'Ur vghigh ara|Je ne veux pas',
   'Asmid|J’ai froid',
@@ -56,63 +56,32 @@ const data={
  'Favoris':[]
 };
 
-// 1) MOTEUR VOIX PROPRE - Version simple et stable
-// On ne transforme PLUS tout le mot en arabe. C'est ça qui cassait la voix.
-// On garde le mot presque pareil, et on remplace seulement les sons spéciaux.
-
-const WORD_PRONUNCIATION = {
-  // mots exacts corrigés par toi
-  'adccagh': 'adtchagh',   // Adccagh = Adtchagh
-  'Adccagh': 'Adtchagh',
-  'adhadh': 'aظaظ',       // dh = ظ
-  'Adhadh': 'Aظaظ',
-  'aghrom': 'aغروم',      // gh = غ, mais on garde le mot simple
-  'Aghrom': 'Aغروم',
-  'vghigh': 'vغيغ',
-  'Vghigh': 'Vغيغ',
-  'i9ar7iyi': 'iقارحيyi',
-  'I9ar7iyi': 'Iقارحيyi',
-  'a3bod': 'aعبود',
-  'A3bod': 'Aعبود',
-  'i7ma': 'iحma',
-  'I7ma': 'Iحma'
-};
-
-function replaceSpecialSounds(word){
-  if(WORD_PRONUNCIATION[word]) return WORD_PRONUNCIATION[word];
-  let t=word;
-  // Ordre important : les sons longs AVANT les sons courts.
+// 1) Texte interne kabyle standardisé pour le futur moteur IA.
+function toKabyleInternal(text){
+  let t=' '+(text||'')+' ';
   const rules=[
-    [/cca/g,'tcha'], [/Cca/g,'Tcha'], [/CCA/g,'TCHA'],
-    [/cci/g,'tchi'], [/Cci/g,'Tchi'], [/CCI/g,'TCHI'],
-    [/cc/g,'tch'], [/Cc/g,'Tch'], [/CC/g,'TCH'],
-    [/dh/g,'ظ'], [/Dh/g,'ظ'], [/DH/g,'ظ'],
-    [/gh/g,'غ'], [/Gh/g,'غ'], [/GH/g,'غ'],
-    [/kh/g,'خ'], [/Kh/g,'خ'], [/KH/g,'خ'],
-    [/ch/g,'ش'], [/Ch/g,'ش'], [/CH/g,'ش'],
-    [/3/g,'ع'], [/7/g,'ح'], [/9/g,'ق']
+    [/cca/gi,'tcha'],[/cci/gi,'tchi'],[/cc/gi,'tch'],[/gh/gi,'ɣ'],[/kh/gi,'x'],[/ch/gi,'č'],[/dh/gi,'ẓ'],
+    [/3/g,'ɛ'],[/7/g,'ḥ'],[/9/g,'q'],[/V/gi,'v'],
+    [/iqarḥiyi/gi,'iqarḥ-iyi'],[/iqar7iyi/gi,'iqarḥ-iyi'],
+    [/dewriyi/gi,'dewr-iyi'],[/9a3diyi/gi,'qaɛd-iyi'],[/9aɛdiyi/gi,'qaɛd-iyi'],
+    [/sersiyi/gi,'sers-iyi'],[/taliyid/gi,'tali-yi-d'],[/adgnagh/gi,'adgnaɣ'],
+    [/vɣigh/gi,'vɣiɣ'],[/vghigh/gi,'vɣiɣ'],[/sma7iyi/gi,'smaḥ-iyi']
   ];
   for(const [a,b] of rules) t=t.replace(a,b);
-  return t;
+  return t.trim();
 }
 
-function toVoiceText(text){
-  return (text||'')
-    .split(/(\s+|[.,!?;:])/)
-    .map(part=>replaceSpecialSounds(part))
-    .join('')
-    .replace(/\s+/g,' ')
-    .trim();
-}
-
-// Texte interne pour futur vrai moteur IA kabyle.
-function toKabyleInternal(text){
-  return toVoiceText(text);
-}
-
-// Ancien nom gardé pour éviter les bugs dans le reste du code.
+// 2) Texte arabe phonétique pour iPhone. Ce n'est pas parfait, mais meilleur que fr-FR pour gh/3/7/9.
 function toArabicPhonetic(text){
-  return toVoiceText(text);
+  let t=(text||'').toLowerCase();
+  const phraseRules=[
+    [/vghigh/g,'ڤغيغ'],[/vɣigh/g,'ڤغيغ'],[/adgnagh/g,'ادڨناغ'],[/i9ar7iyi/g,'يقارحيي'],
+    [/a3bod/g,'اعبود'],[/i7ma/g,'يحما'],[/dewriyi/g,'دوريي'],[/9a3diyi/g,'قعديي'],
+    [/gh/g,'غ'],[/kh/g,'خ'],[/ch/g,'ش'],[/dh/g,'ظ'],[/3/g,'ع'],[/7/g,'ح'],[/9/g,'ق'],[/v/g,'ڤ']
+  ];
+  for(const [a,b] of phraseRules) t=t.replace(a,b);
+  const letters={a:'ا',b:'ب',c:'ك',d:'د',e:'ي',f:'ف',g:'ڨ',h:'ه',i:'ي',j:'ج',k:'ك',l:'ل',m:'م',n:'ن',o:'و',p:'پ',q:'ق',r:'ر',s:'س',t:'ت',u:'و',w:'و',x:'خ',y:'ي',z:'ز'};
+  return t.split('').map(ch=>letters[ch]||ch).join('').replace(/\s+/g,' ').trim();
 }
 
 function bestArabicVoice(){
