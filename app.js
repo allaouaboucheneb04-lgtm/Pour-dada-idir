@@ -71,59 +71,63 @@ function toKabyleInternal(text){
   return t.trim();
 }
 
-// 2) Texte voix provisoire (iPhone/Windows).
-// IMPORTANT: l'affichage reste toujours en écriture Sidi Aïch.
-// Ici on prépare seulement un texte caché pour la voix arabe du navigateur.
-// On traite mot par mot pour éviter de mélanger les prononciations.
+// 2) Texte phonétique pour la voix iPhone/Windows.
+// IMPORTANT : on ne lit plus lettre par lettre. On utilise d'abord un dictionnaire.
+// gh = غ ; 3 = ع ; 7 = ح ; 9 = ق ; v = ڤ
+const voiceDict = {
+  'vghigh':'ڤْغِيغْ',
+  'vghiɣ':'ڤْغِيغْ',
+  'adgnagh':'ادْڨْناغْ',
+  'i9ar7iyi':'إيقارْحِيّي',
+  'a3bod':'اعْبودْ',
+  'i7ma':'يحْما',
+  'asmid':'اسْميدْ',
+  'dewriyi':'دَوْرِيّي',
+  '9a3diyi':'قاعْدِيّي',
+  'ghari':'غارِي',
+  'ghar':'غار',
+  'sma7iyi':'سْماحِيّي',
+  'ma3lich':'ماعْليش',
+  '3iwedas':'عيواداس',
+  'chegh':'شّاغْ',
+  'aman':'امان',
+  'mama':'ماما',
+  'papa':'پاپا',
+  'gma':'ڨْما',
+  'weltma':'والْتْما',
+  'uqerruy':'وقارّوي',
+  'afus':'افوس',
+  'adhar':'اضار',
+  'atas':'اتاس',
+  'taliyid':'تالِيِيدْ',
+  'qim':'قيم',
+  'yidi':'يِدي',
+  'sersiyi':'سارْسِيّي',
+  'rfed':'رْفاد',
+  'aqerruy':'اقارّوي',
+  'beddeliyi':'بادّلِيّي',
+  'amkan':'امكان',
+  'ih':'إيه',
+  'ala':'الا',
+  'tanemmirt':'تانمّيرت'
+};
+
 function toArabicPhonetic(text){
-  // VERSION PROPRE V11
-  // On ne convertit PLUS les lettres normales en arabe.
-  // On remplace seulement les sons spéciaux que tu as validés.
-  // IMPORTANT : V reste V. gh reste le son غ. 3 reste le son ع.
-
-  const wordDict={
-    'vghigh':'Vغيغ',      // V reste V, gh = غ
-    'adccagh':'adtchagh', // cc = tch
-    'aghrom':'aغروم',     // gh = غ
-    'adhadh':'aظaظ',      // dh = ظ
-    'i9ar7iyi':'iقارحيي', // 9 = ق, 7 = ح
-    'a3bod':'aعبود',      // 3 = ع
-    'i7ma':'iحma',
-    'asmid':'asmid',
-    'dewriyi':'dewriyi',
-    '9a3diyi':'قaعدiyi',
-    'sma7iyi':'smaحيي'
-  };
-
-  function convertWord(raw){
-    const lower=raw.toLowerCase();
-    if(wordDict[lower]) {
-      // garde la majuscule du V si le mot commence par V
-      if(raw[0] === 'V' && wordDict[lower][0] === 'V') return wordDict[lower];
-      return wordDict[lower];
-    }
-
-    // règles longues d'abord
-    return raw
-      .replace(/cca/gi,'tcha')
-      .replace(/cci/gi,'tchi')
-      .replace(/cc/gi,'tch')
-      .replace(/gh/gi,'غ')
-      .replace(/dh/gi,'ظ')
-      .replace(/kh/gi,'خ')
-      .replace(/ch/gi,'ش')
-      .replace(/3/g,'ع')
-      .replace(/7/g,'ح')
-      .replace(/9/g,'ق');
-  }
-
-  return (text||'')
-    .split(/(\s+)/)
-    .map(part=>/^\s+$/.test(part)?part:convertWord(part))
-    .join('')
-    .replace(/\s+/g,' ')
-    .trim();
+  let words=(text||'').toLowerCase().trim().split(/\s+/).filter(Boolean);
+  const out=words.map(w=>{
+    const clean=w.replace(/[.,!?;:()]/g,'');
+    if(voiceDict[clean]) return voiceDict[clean];
+    // Règles générales si le mot n'est pas encore dans le dictionnaire.
+    let t=clean;
+    // Ordre obligatoire: gh/ch/kh/dh avant les lettres simples.
+    const rules=[[/gh/g,'غ'],[/kh/g,'خ'],[/ch/g,'ش'],[/dh/g,'ض'],[/3/g,'ع'],[/7/g,'ح'],[/9/g,'ق'],[/v/g,'ڤ']];
+    for(const [a,b] of rules) t=t.replace(a,b);
+    const letters={a:'ا',b:'ب',c:'ك',d:'د',e:'ي',f:'ف',g:'ڨ',h:'ه',i:'ي',j:'ج',k:'ك',l:'ل',m:'م',n:'ن',o:'و',p:'پ',q:'ق',r:'ر',s:'س',t:'ت',u:'و',w:'و',x:'خ',y:'ي',z:'ز'};
+    return t.split('').map(ch=>letters[ch]||ch).join('');
+  });
+  return out.join(' ').replace(/\s+/g,' ').trim();
 }
+
 function bestArabicVoice(){
   const voices=speechSynthesis.getVoices ? speechSynthesis.getVoices() : [];
   return voices.find(v=>/^ar/i.test(v.lang)) || voices.find(v=>/arab/i.test(v.name)) || null;
@@ -170,6 +174,9 @@ async function speak(text){
 function renderAll(){renderCats();renderPhrases();renderKeys();suggest()}
 $('speakBtn').onclick=()=>speak($('textOut').value||'Azul');
 $('btnVoice').onclick=()=>speak('Vghigh aman');
+// Boutons de test rapides dans la console: testVoice('Vghigh aman'), testVoice('I9ar7iyi a3bod')
+window.testVoice=speak;
+window.toArabicPhonetic=toArabicPhonetic;
 $('clearBtn').onclick=()=>{$('textOut').value='';suggest()};
 $('favBtn').onclick=()=>{const v=$('textOut').value.trim(); if(v&&!state.favs.includes(v+'|Favori')){state.favs.unshift(v+'|Favori');localStorage.taqvoxFavs=JSON.stringify(state.favs);renderAll()}};
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
