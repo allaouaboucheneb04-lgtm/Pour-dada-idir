@@ -1,0 +1,85 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userExists() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function userData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isSuperAdmin() {
+      return userExists() && userData().role == "superadmin";
+    }
+
+    function isBroker() {
+      return userExists() && userData().role == "broker";
+    }
+
+    function isDriver() {
+      return userExists() && userData().role == "driver";
+    }
+
+    function myBrokerId() {
+      return userData().brokerId;
+    }
+
+    function myDriverId() {
+      return userData().driverId;
+    }
+
+    // Global users. Super admin is created manually only.
+    match /users/{uid} {
+      allow read, write: if isSuperAdmin();
+      allow read, update: if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.role != "superadmin";
+    }
+
+    // Global invitation email index, used before app profile exists.
+    match /invitations/{inviteId} {
+      allow read, write: if isSuperAdmin();
+      allow read, create, update, delete: if isBroker()
+        && (request.resource.data.brokerId == myBrokerId() || resource.data.brokerId == myBrokerId());
+      allow read, update: if signedIn()
+        && resource.data.emailLower == request.auth.token.email.lower();
+    }
+
+    // Broker main document.
+    match /brokers/{brokerId} {
+      allow read, write: if isSuperAdmin();
+      allow read, update: if isBroker() && brokerId == myBrokerId();
+      allow read: if isDriver() && brokerId == myBrokerId();
+      // Invited broker can finalize the broker profile before users/{uid} exists.
+      allow read, update: if signedIn()
+        && resource.data.emailLower == request.auth.token.email.lower();
+    }
+
+    // All data owned by a broker: drivers, weeks, notifications, duplicateInvoices,
+    // settings, parcelDetails, history, rates, vehicles, stations, invitations, etc.
+    match /brokers/{brokerId}/{document=**} {
+      allow read, write: if isSuperAdmin();
+      allow read, write: if isBroker() && brokerId == myBrokerId();
+      allow read: if isDriver() && brokerId == myBrokerId();
+      allow create, update: if isDriver()
+        && brokerId == myBrokerId()
+        && request.resource.data.driverId == myDriverId();
+      // Invited users can read/update their own invitation inside a broker.
+      allow read, update: if signedIn()
+        && resource.data.emailLower == request.auth.token.email.lower();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

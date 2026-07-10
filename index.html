@@ -2,48 +2,1075 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1020" />
-  <title>TaqVox Sidi Aïch Voice V5</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Intelcom Broker Pay</title>
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Broker Pay" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <style>
+    :root{
+      --bg:#f3f6fb;--bg2:#e9eef7;--card:#ffffff;--card2:#f8fafc;--text:#0f172a;--muted:#64748b;
+      --blue:#2563eb;--blue2:#1d4ed8;--green:#16a34a;--green2:#15803d;--red:#dc2626;--red2:#b91c1c;
+      --orange:#f59e0b;--orange2:#d97706;--border:#dbe3ef;--border2:#cbd5e1;--cyan:#0ea5e9;
+      --shadow:0 14px 35px rgba(15,23,42,.08);--shadow2:0 8px 18px rgba(15,23,42,.08);--radius:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#f8fafc 0%,#eef3fb 48%,#e8eef7 100%);color:var(--text);min-height:100vh;font-size:15px}
+    body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 12% 4%,rgba(37,99,235,.12),transparent 32%),radial-gradient(circle at 88% 0%,rgba(14,165,233,.10),transparent 28%);pointer-events:none;z-index:-1}
+    .wrap{max-width:1240px;margin:0 auto;padding:24px 18px 44px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px;background:rgba(255,255,255,.78);border:1px solid rgba(219,227,239,.9);border-radius:22px;padding:16px 18px;box-shadow:var(--shadow);backdrop-filter:blur(14px);position:sticky;top:10px;z-index:20}
+    .brand{font-size:29px;font-weight:950;letter-spacing:-.7px;color:#0f172a;line-height:1.05}.brand:before{content:"📦 ";font-size:26px}.sub{color:var(--muted);line-height:1.35;margin-top:5px;font-size:13px}.pill{background:#eff6ff;border:1px solid #bfdbfe;padding:9px 13px;border-radius:999px;color:#1e40af;font-size:13px;font-weight:800;box-shadow:0 4px 12px rgba(37,99,235,.08)}
+    .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}.card:hover{box-shadow:0 18px 42px rgba(15,23,42,.10);border-color:#cbd5e1}.col-4{grid-column:span 4}.col-5{grid-column:span 5}.col-6{grid-column:span 6}.col-7{grid-column:span 7}.col-8{grid-column:span 8}.col-12{grid-column:span 12}
+    h1,h2,h3{margin:0 0 12px;color:#0f172a;letter-spacing:-.25px}h2{font-size:21px}h3{font-size:17px}.sectionTitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.muted{color:var(--muted)}.small{font-size:12px}.big{font-size:31px;font-weight:950;letter-spacing:-.6px}.right{text-align:right}.nowrap{white-space:nowrap}.hidden{display:none!important}.disabled{opacity:.55;filter:grayscale(.2)}
+    label{font-size:12px;color:#475569;display:block;margin:11px 0 6px;font-weight:850;text-transform:uppercase;letter-spacing:.35px}input,select,textarea{width:100%;border:1px solid var(--border2);background:#fff;color:var(--text);border-radius:13px;padding:12px 13px;outline:none;font-size:15px;transition:border .16s,box-shadow .16s,background .16s}input:focus,select:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 4px rgba(37,99,235,.12);background:#fff}textarea{min-height:84px;resize:vertical}input::placeholder,textarea::placeholder{color:#94a3b8}
+    button{border:0;border-radius:13px;padding:11px 15px;font-weight:900;color:white;background:linear-gradient(180deg,var(--blue),var(--blue2));cursor:pointer;box-shadow:0 8px 18px rgba(37,99,235,.18);transition:transform .14s ease,box-shadow .14s ease,filter .14s ease;min-height:42px}button:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(37,99,235,.23)}button:active{transform:translateY(0);filter:brightness(.96)}button.secondary{background:linear-gradient(180deg,#64748b,#475569);box-shadow:0 8px 18px rgba(71,85,105,.16)}button.green{background:linear-gradient(180deg,var(--green),var(--green2));box-shadow:0 8px 18px rgba(22,163,74,.18)}button.red{background:linear-gradient(180deg,var(--red),var(--red2));box-shadow:0 8px 18px rgba(220,38,38,.18)}button.orange{background:linear-gradient(180deg,#fbbf24,var(--orange2));color:#111827;box-shadow:0 8px 18px rgba(245,158,11,.20)}button.mini,.mini{padding:7px 10px;border-radius:10px;font-size:12px;min-height:32px}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .tabs{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0 18px;background:rgba(255,255,255,.76);border:1px solid var(--border);border-radius:18px;padding:8px;box-shadow:var(--shadow2);position:sticky;top:96px;z-index:15;backdrop-filter:blur(14px)}.tab{background:#fff;border:1px solid var(--border);color:#334155;box-shadow:none}.tab:hover{box-shadow:var(--shadow2)}.tab.active{background:linear-gradient(180deg,var(--blue),var(--blue2));color:#fff;border-color:transparent;box-shadow:0 9px 20px rgba(37,99,235,.22)}
+    .wide{width:100%;overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:#fff}table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;overflow:hidden}th,td{border-bottom:1px solid #edf2f7;padding:11px 12px;text-align:left;font-size:13px;white-space:nowrap;vertical-align:middle}th{color:#334155;background:#f1f5f9;font-weight:950;text-transform:uppercase;font-size:11px;letter-spacing:.38px}tr:last-child td{border-bottom:0}tbody tr:hover td{background:#f8fbff}
+    .notice{padding:13px 14px;border-radius:14px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;margin:10px 0;font-weight:650}.err{background:#fef2f2;border-color:#fecaca;color:#991b1b}.ok{background:#f0fdf4;border-color:#bbf7d0;color:#166534}.warn{background:#fffbeb;border-color:#fed7aa;color:#9a3412}.bluebox{background:#eff6ff;border-color:#7dd3fc;color:#075985}.hr{height:1px;background:var(--border);margin:15px 0}.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:#f1f5f9;border:1px solid #dbe3ef;font-size:12px;color:#334155;font-weight:850}.badge.ok,.successText{color:#166534;background:#f0fdf4;border-color:#bbf7d0}.badge.warn{color:#9a3412;background:#fffbeb;border-color:#fed7aa}.badge.err,.dangerText{color:#991b1b;background:#fef2f2;border-color:#fecaca}.kbd{background:#f8fafc;border:1px solid var(--border);padding:2px 6px;border-radius:6px;color:#0f172a;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.soft{background:#f8fafc;color:#0f172a}.linkbox{font-size:12px;color:#334155;background:#f8fafc;border:1px dashed #94a3b8;padding:11px;border-radius:13px;word-break:break-all}.search{max-width:360px}.stat{border-left:5px solid var(--blue);position:relative;overflow:hidden}.stat:after{content:"";position:absolute;right:-36px;top:-36px;width:100px;height:100px;background:rgba(37,99,235,.07);border-radius:999px}.plan{font-weight:950;text-transform:uppercase}.feeBox{border:1px solid var(--border);border-radius:16px;padding:13px;background:#f8fafc;margin:10px 0}.bracketRow{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin:7px 0}.summaryBar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}.summaryBar .card{padding:14px}.summaryBar .big{font-size:25px}.sectionTitle + .muted{margin-top:-4px}.card .notice:last-child{margin-bottom:0}
+    ::-webkit-scrollbar{height:10px;width:10px}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px}::-webkit-scrollbar-track{background:#f1f5f9}
+    @media(max-width:900px){.col-4,.col-5,.col-6,.col-7,.col-8{grid-column:span 12}.top{align-items:flex-start;flex-direction:column;position:static}.tabs{top:0;position:sticky;overflow-x:auto;flex-wrap:nowrap}.tab{white-space:nowrap}.wide{overflow-x:auto}.wrap{padding:14px 10px 28px}.brand{font-size:24px}.card{padding:14px;border-radius:16px}.summaryBar{grid-template-columns:1fr 1fr}.bracketRow{grid-template-columns:1fr 1fr}.bracketRow button{grid-column:span 2}button{width:auto}th,td{padding:9px 10px;font-size:12px}}
+    @media(max-width:520px){.summaryBar{grid-template-columns:1fr}.row{gap:8px}.row button{flex:1}.tabs{margin-left:-2px;margin-right:-2px}.brand{font-size:22px}input,select,textarea{font-size:16px}.card{box-shadow:0 8px 20px rgba(15,23,42,.08)}}
+
+    body.login-mode .top{display:none}
+    body.login-mode .wrap{max-width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:22px;background:linear-gradient(135deg,#f8fafc 0%,#eef4ff 50%,#eaf7ff 100%)}
+    .loginPage{width:100%;max-width:450px}
+    .loginLogo{display:flex;align-items:center;justify-content:center;width:64px;height:64px;margin:0 auto 14px;border-radius:20px;background:linear-gradient(180deg,var(--blue),var(--blue2));color:white;font-size:28px;box-shadow:0 18px 40px rgba(37,99,235,.25)}
+    .loginTitle{text-align:center;font-size:28px;font-weight:950;letter-spacing:-.6px;margin:0;color:#0f172a}
+    .loginSubtitle{text-align:center;color:var(--muted);margin:7px 0 22px;font-size:14px}
+    .loginCard{background:#fff;border:1px solid var(--border);border-radius:24px;padding:22px;box-shadow:0 24px 60px rgba(15,23,42,.12)}
+    .loginCard h2{font-size:19px;text-align:center;margin-bottom:16px}
+    .loginActions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+    .loginActions button{width:100%}
+    .loginLinks{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:12px}
+    .textBtn{background:transparent!important;color:var(--blue)!important;box-shadow:none!important;padding:6px!important;min-height:auto!important;border-radius:8px;font-size:13px}
+    .textBtn:hover{transform:none;text-decoration:underline}
+    .loginPanel{margin-top:12px;border:1px solid var(--border);border-radius:16px;background:#f8fafc;overflow:hidden}
+    .loginPanel summary{cursor:pointer;list-style:none;padding:13px 14px;font-weight:900;color:#334155;display:flex;justify-content:space-between;align-items:center}
+    .loginPanel summary::-webkit-details-marker{display:none}
+    .loginPanel summary:after{content:'+';font-size:18px;color:#64748b}
+    .loginPanel[open] summary:after{content:'−'}
+    .loginPanelBody{padding:0 14px 14px}
+    .loginFoot{text-align:center;color:#94a3b8;font-size:12px;margin-top:14px}
+    body.login-mode #msg{position:fixed;top:12px;left:50%;transform:translateX(-50%);width:min(92vw,520px);z-index:50}
+
+
+
+    /* v25.2 — correction interface mobile/tablette */
+    @media(max-width:900px){
+      .col-3{grid-column:span 6!important}
+      .top{border-radius:18px;padding:12px 14px;margin-bottom:10px}
+      .pill{font-size:12px;padding:7px 10px;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+      .tabs{gap:7px;padding:7px;margin:8px -2px 14px;border-radius:16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+      .tab{padding:10px 13px;min-height:40px;font-size:13px;scroll-snap-align:start}
+      .grid{gap:12px}
+      .feeBox{margin:0;padding:14px;border-radius:16px;min-height:92px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+      .feeBox b{display:block;font-size:13px;line-height:1.18;word-break:normal;hyphens:none}
+      .feeBox .big,.summaryBar .big{font-size:28px!important;line-height:1.05;margin-top:6px;white-space:nowrap}
+      .summaryBar{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px}
+      .sectionTitle{flex-direction:column;align-items:stretch;gap:8px}
+      .search{max-width:none;width:100%}
+      h2{font-size:20px;line-height:1.15}
+      .notice{font-size:14px;line-height:1.35}
+      .wide{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:14px}
+      .wide table{min-width:760px}
+      .wide:after{content:'← Glisser pour voir tout le tableau →';display:block;padding:7px 10px;color:#64748b;font-size:11px;background:#f8fafc;border-top:1px solid #e2e8f0;text-align:center}
+    }
+    @media(max-width:560px){
+      body{font-size:14px;background:#f3f6fb}
+      .wrap{padding:10px 10px 86px}
+      .brand{font-size:21px;line-height:1.05}.brand:before{font-size:20px}
+      .sub{font-size:12px}
+      .top{position:static;gap:10px;box-shadow:0 8px 20px rgba(15,23,42,.07)}
+      .tabs{position:sticky;top:0;z-index:25;margin:0 -10px 12px;border-left:0;border-right:0;border-radius:0;background:rgba(255,255,255,.95);box-shadow:0 8px 18px rgba(15,23,42,.08)}
+      .tab{font-size:13px;padding:10px 12px;border-radius:13px;white-space:nowrap}
+      .card{padding:15px;border-radius:18px;box-shadow:0 8px 20px rgba(15,23,42,.07)}
+      .col-3{grid-column:span 6!important}
+      .summaryBar{grid-template-columns:1fr 1fr!important}
+      .summaryBar .feeBox,.grid>.col-3 .feeBox{min-height:98px}
+      .big{font-size:29px}
+      label{font-size:11px;line-height:1.25}
+      button{min-height:42px;padding:10px 13px;border-radius:12px}
+      button.mini,.mini{font-size:12px;min-height:34px;padding:7px 9px}
+      .row{gap:8px}.row button{flex:1 1 auto}
+      input,select,textarea{font-size:16px;border-radius:14px;padding:11px 12px}
+      .loginPage{max-width:430px}.loginCard{padding:20px;border-radius:22px}.loginTitle{font-size:26px}
+    }
+    @media(max-width:390px){
+      .summaryBar{grid-template-columns:1fr!important}
+      .col-3{grid-column:span 12!important}
+      .feeBox{min-height:auto}
+      .tab{padding:9px 10px}
+      h2{font-size:19px}
+    }
+
+    @media print{body{background:#fff}.top,.tabs,button{display:none!important}.wrap{max-width:none;padding:0}.card{box-shadow:none;border:1px solid #ddd}}
+
+    .pwa-install-btn{position:fixed;right:18px;bottom:18px;z-index:9999;background:#2563eb;color:#fff;border:none;border-radius:999px;padding:12px 16px;font-weight:800;box-shadow:0 12px 28px rgba(37,99,235,.28);display:none}
+    .pwa-install-btn.show{display:inline-flex;align-items:center;gap:8px}
+    @media(max-width:720px){.pwa-install-btn{left:16px;right:16px;justify-content:center}}
+
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
-<body>
-  <header class="topbar">
-    <div>
-      <h1>TaqVox Sidi Aïch Voice V5</h1>
-      <p>Kabyle Sidi Aïch + conversion voix gh/3/7/9</p>
-    </div>
-    <button id="btnVoice" class="pill">🔊 Test voix</button>
-  </header>
+<body class="login-mode">
+<div class="wrap">
+  <div class="top">
+    <div><div class="brand">Broker Intelcom Pay</div><div class="sub">v27.3 — import PDF corrigé multi-broker</div></div>
+    <div class="row"><span id="userPill" class="pill">Non connecté</span><button id="logoutBtn" class="secondary hidden">Déconnexion</button></div>
+  </div>
+  <div id="msg"></div>
 
-  <main>
-    <section class="speakbox">
-      <textarea id="textOut" placeholder="Écris comme WhatsApp : vghigh, gh, 3, 7, 9…"></textarea>
-      <div class="actions">
-        <button id="speakBtn" class="primary">🔊 Parler</button>
-        <button id="clearBtn">Effacer</button>
-        <button id="favBtn">⭐ Favori</button>
+  <section id="authView" class="loginPage">
+    <div class="loginLogo">📦</div>
+    <h1 class="loginTitle">Intelcom Broker</h1>
+    <div class="loginSubtitle">Gestion des relevés et des chauffeurs</div>
+
+    <div class="loginCard">
+      <h2>Connexion</h2>
+      <label>Email</label>
+      <input id="loginEmail" type="email" placeholder="email@exemple.com" autocomplete="email">
+      <label>Mot de passe</label>
+      <input id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password">
+      <div class="loginActions">
+        <button id="loginBtn">Se connecter</button>
       </div>
-      <div id="status" class="status">Mode iPhone : conversion automatique vers écriture arabe phonétique pour mieux prononcer gh/3/7/9. La vraie voix IA cloud pourra être branchée plus tard.</div>
-    </section>
+      <div class="loginLinks">
+        <button id="resetBtn" class="textBtn">Mot de passe oublié</button>
+      </div>
 
-    <section class="quick emergency">
-      <button data-say="Ghar i tbib" class="danger">🚨 Urgence médecin</button>
-      <button data-say="Ur zmiregh ara ad nefsegh" class="danger">🚨 Je respire mal</button>
-      <button data-say="I9ar7iyi atas" class="danger">🚨 J’ai très mal</button>
-    </section>
+      <details class="loginPanel">
+        <summary>Créer compte avec invitation</summary>
+        <div class="loginPanelBody">
+          <label>Nom</label><input id="invName" placeholder="Nom complet" autocomplete="name">
+          <label>Email invité</label><input id="invEmail" type="email" placeholder="email invité" autocomplete="email">
+          <label>Mot de passe à créer</label><input id="invPass" type="password" placeholder="minimum 6 caractères" autocomplete="new-password">
+          <button id="acceptInviteBtn" class="green" style="margin-top:12px;width:100%">Créer mon compte</button>
+        </div>
+      </details>
+    </div>
+    <div class="loginFoot">Accès sécurisé aux relevés Intelcom</div>
+  </section>
 
-    <nav id="categories" class="categories"></nav>
-    <section id="phrases" class="phrases"></section>
+  <section id="appView" class="hidden">
+    <div class="tabs" id="tabs"></div>
+    <div id="content"></div>
+  </section>
+</div>
 
-    <section class="keyboardBox">
-      <h2>Clavier kabyle</h2>
-      <div id="suggestions" class="suggestions"></div>
-      <div id="keyboard" class="keyboard"></div>
-    </section>
-  </main>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyC8N0FYmFplqOdaZGzk-fxbqxX3kr3mmDQ",
+  authDomain: "brocker-intel.firebaseapp.com",
+  projectId: "brocker-intel",
+  storageBucket: "brocker-intel.firebasestorage.app",
+  messagingSenderId: "641968934387",
+  appId: "1:641968934387:web:be779857dc0eb93a7bd686",
+  measurementId: "G-L0MKXG2MS6"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+// ================= v27 MULTI-BROKER DATA ARCHITECTURE =================
+// Global collections kept intentionally: users, brokers, invitations (email index).
+// Broker-owned data is stored under: brokers/{brokerId}/{drivers,weeks,settings,notifications,...}
+function brokerRef(brokerId){ return db.collection('brokers').doc(brokerId || profile?.brokerId || ''); }
+function bcol(name, brokerId){ return brokerRef(brokerId).collection(name); }
+function gInvRef(email){ return db.collection('invitations').doc(emailDocId(email)); }
+function brokerInviteRef(brokerId,email){ return bcol('invitations', brokerId).doc(emailDocId(email)); }
+async function saveInvitationIndex(inv){
+  await db.collection('invitations').doc(emailDocId(inv.email)).set(inv,{merge:true});
+  if(inv.brokerId) await brokerInviteRef(inv.brokerId, inv.email).set(inv,{merge:true});
+}
+async function markInvitationUsed(inv, uid){
+  const patch={used:true, usedBy:uid, usedAt:now()};
+  await db.collection('invitations').doc(emailDocId(inv.email)).set(patch,{merge:true});
+  if(inv.brokerId) await brokerInviteRef(inv.brokerId, inv.email).set(patch,{merge:true}).catch(()=>{});
+}
+function currentBrokerId(){ return profile?.brokerId || window.currentBroker?.brokerId || ''; }
+async function getDocByPath(path){ return db.doc(path).get(); }
+async function deleteSubcollection(ref, name){ await deleteQuery(ref.collection(name)); }
+async function deleteBrokerNestedData(brokerId){
+  const ref = brokerRef(brokerId);
+  for(const name of ['drivers','weeks','dailyVehicles','dispatch','parcelDetails','settings','notifications','duplicateInvoices','history','reports','stations','subscriptions','invitations','vehicles']){
+    await deleteSubcollection(ref, name).catch(()=>{});
+  }
+}
+async function legacyCollectionGroup(name){ return db.collectionGroup ? db.collectionGroup(name).get() : db.collection(name).get(); }
 
-  <script src="app.js"></script>
+if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+let currentUser = null;
+let profile = null;
+let currentTab = 'dashboard';
+const $ = id => document.getElementById(id);
+function showMsg(text, type='notice'){$('msg').innerHTML = `<div class="notice ${type}">${safe(text)}</div>`; setTimeout(()=>{$('msg').innerHTML=''}, 9000)}
+function safe(v){return String(v??'').replace(/[&<>'"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function normEmail(e){return String(e||'').trim().toLowerCase();}
+function appUrl(){ return 'https://allaouaboucheneb04-lgtm.github.io/Brocker-app/'; }
+function card(html, cls='col-12'){ return `<div class="card ${cls}">${html}</div>`; }
+function tempPass(){ return 'Temp' + Math.random().toString(36).slice(2,8).toUpperCase() + '!' + Math.floor(10+Math.random()*89); }
+function emailDocId(email){ return normEmail(email); }
+function now(){ return firebase.firestore.FieldValue.serverTimestamp(); }
+function cleanObj(obj){ Object.keys(obj).forEach(k=>{ if(obj[k]===undefined) delete obj[k]; }); return obj; }
+function humanError(e){
+  const code = e?.code || '';
+  if(code==='auth/invalid-credential') return 'Email ou mot de passe incorrect, ou compte non créé. Si c’est une première connexion, utilise “Créer compte avec invitation”.';
+  if(code==='auth/email-already-in-use') return 'Ce compte existe déjà. Utilise “Se connecter” ou “Mot de passe oublié”.';
+  if(code==='permission-denied') return 'Permission refusée Firestore. Vérifie les rules v27.5 semaines lisibles fournies dans le dossier.';
+  return e?.message || String(e);
+}
+function gmailUrl(inv){
+  const subject = inv.role === 'broker' ? 'Invitation à votre espace Broker Intelcom' : 'Invitation à votre espace Chauffeur Intelcom';
+  const body = `Bonjour ${inv.name || ''},\n\nVotre invitation est prête.\n\nLien : ${appUrl()}\nEmail : ${inv.email}\nMot de passe temporaire / suggestion : ${inv.tempPassword || 'à créer'}\n\nIMPORTANT :\n1. Ouvrir le lien.\n2. Cliquer sur "Créer compte avec invitation".\n3. Entrer cet email et créer votre mot de passe.\n4. Ensuite seulement, utiliser "Se connecter".\n\nMerci.`;
+  return 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(inv.email) + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+function openGmail(inv){ window.open(gmailUrl(inv), '_blank'); }
+function copyInvite(inv){
+  const txt = `Invitation ${inv.role}\nLien : ${appUrl()}\nEmail : ${inv.email}\nMot de passe temporaire : ${inv.tempPassword||''}\n\nPremière connexion : cliquer sur Créer compte avec invitation.`;
+  navigator.clipboard?.writeText(txt).then(()=>showMsg('Invitation copiée','ok')).catch(()=>showMsg('Copie impossible','err'));
+}
+async function getProfile(uid){ const d = await db.collection('users').doc(uid).get(); return d.exists ? d.data() : null; }
+async function ensureBrokerActive(p){
+  if(p.role !== 'broker') return true;
+  const b = await db.collection('brokers').doc(p.brokerId).get();
+  if(!b.exists || b.data().active === false){ showMsg('Compte broker désactivé. Contacte le Super Admin.', 'err'); await auth.signOut(); return false; }
+  return true;
+}
+auth.onAuthStateChanged(async user=>{
+  currentUser = user;
+  if(!user){ document.body.classList.add('login-mode'); profile=null; $('authView').classList.remove('hidden'); $('appView').classList.add('hidden'); $('logoutBtn').classList.add('hidden'); $('userPill').textContent='Non connecté'; return; }
+  try{
+    profile = await getProfile(user.uid);
+    if(!profile){ showMsg('Compte Auth trouvé, mais profil app manquant. Si tu as une invitation, utilise Créer compte avec invitation. Sinon contacte l’administrateur.', 'err'); await auth.signOut(); return; }
+    if(!(await ensureBrokerActive(profile))) return;
+    document.body.classList.remove('login-mode'); $('authView').classList.add('hidden'); $('appView').classList.remove('hidden'); $('logoutBtn').classList.remove('hidden'); $('userPill').textContent = `${profile.role} — ${user.email}`; renderTabs(); render();
+  }catch(e){ showMsg(humanError(e), 'err'); await auth.signOut(); }
+});
+$('logoutBtn').onclick = () => auth.signOut();
+$('loginBtn').onclick = async()=>{ try{ await auth.signInWithEmailAndPassword(normEmail($('loginEmail').value), $('loginPass').value); }catch(e){ showMsg(humanError(e), 'err'); } };
+$('resetBtn').onclick = async()=>{ try{ const email=normEmail($('loginEmail').value); if(!email) return showMsg('Entre ton email','err'); await auth.sendPasswordResetEmail(email); showMsg('Email de réinitialisation envoyé','ok'); }catch(e){ showMsg(humanError(e),'err'); } };
+$('acceptInviteBtn').onclick = async()=>{
+  let cred = null;
+  try{
+    const email=normEmail($('invEmail').value), pass=$('invPass').value, name=$('invName').value.trim();
+    if(!email || !pass) return showMsg('Email et mot de passe obligatoires','err');
+    cred = await auth.createUserWithEmailAndPassword(email, pass);
+    const invRef = db.collection('invitations').doc(emailDocId(email));
+    const invDoc = await invRef.get();
+    if(!invDoc.exists || invDoc.data().used === true){
+      await cred.user.delete().catch(()=>{});
+      await auth.signOut().catch(()=>{});
+      return showMsg('Aucune invitation active pour cet email. Demande au Super Admin/Broker de recréer l’invitation.', 'err');
+    }
+    const inv = invDoc.data();
+    if(normEmail(inv.email) !== email){ throw new Error('Invitation invalide pour cet email.'); }
+    if(!['broker','driver'].includes(inv.role)){
+      await cred.user.delete().catch(()=>{});
+      await auth.signOut().catch(()=>{});
+      return showMsg('Invitation invalide : rôle non autorisé.', 'err');
+    }
+    const userData = cleanObj({name:name || inv.name || '', email, emailLower:email, role:inv.role, brokerId:inv.brokerId || '', active:true, createdAt:now()});
+    await db.collection('users').doc(cred.user.uid).set(userData);
+    if(inv.role === 'driver' && inv.driverId){
+      await bcol('drivers', inv.brokerId).doc(inv.driverId).set({uid:cred.user.uid, email, emailLower:email, active:true, status:'active', profileCompleted:true, acceptedAt:now()}, {merge:true});
+      // Relier automatiquement les anciennes factures importées avant la création du compte chauffeur
+      const oldWeeks = await bcol('weeks', inv.brokerId).where('driverId','==',inv.driverId).get().catch(()=>({docs:[]}));
+      for(const w of oldWeeks.docs){
+        await w.ref.set({driverUid:cred.user.uid, driverEmail:email, status: (w.data().status==='waiting_driver_info'?'généré':(w.data().status||'généré')), profileCompleted:true, linkedAt:now()}, {merge:true});
+      }
+    }
+    if(inv.role === 'broker' && inv.brokerId){ await db.collection('brokers').doc(inv.brokerId).set({ownerUid:cred.user.uid, active:true, acceptedAt:now()}, {merge:true}); }
+    await markInvitationUsed(inv, cred.user.uid);
+    showMsg('Compte créé avec invitation','ok');
+  }catch(e){ if(cred?.user && !profile){ await cred.user.delete().catch(()=>{}); await auth.signOut().catch(()=>{}); } showMsg(humanError(e),'err'); }
+};
+function tabsForRole(){ if(profile?.role==='superadmin') return [['dashboard','Dashboard'],['brokers','Brokers'],['plans','Plans'],['invitations','Invitations']]; if(profile?.role==='broker') return [['factures','Factures'],['dashboard','Dashboard'],['drivers','Chauffeurs'],['vehicles','Véhicules'],['dispatch','Dispatch'],['weeks','Historique'],['invitations','Invitations'],['settings','Paramètres']]; return [['dashboard','Mes relevés'],['vehicles','Mon planning'],['profile','Profil']]; }
+function renderTabs(){ $('tabs').innerHTML = tabsForRole().map(([id,label])=>`<button class="tab ${currentTab===id?'active':''}" onclick="currentTab='${id}';renderTabs();render()">${label}</button>`).join(''); }
+async function render(){ if(!profile) return; if(profile.role==='superadmin') return renderSuperAdmin(); if(profile.role==='broker') return renderBroker(); return renderDriver(); }
+function money(n){ return (Number(n||0)).toFixed(2)+' $'; }
+function planLimit(plan){ return plan==='free'?5:plan==='pro'?50:9999; }
+function uniq(arr){ return Array.from(new Set(arr.filter(Boolean))); }
+function countBy(docs, field){ const out={}; docs.forEach(d=>{ const v=d.data()[field]||'non défini'; out[v]=(out[v]||0)+1; }); return out; }
+function statsCard(title, value, note, cls='col-3'){ return card(`<h2>${safe(title)}</h2><div class="big">${safe(value)}</div><p class="muted">${safe(note||'')}</p>`, cls+' stat'); }
+async function renderSuperAdmin(){
+  const c=$('content');
+  if(currentTab==='dashboard'){
+    const emptySnap={size:0,docs:[]};
+    const [brokersSnap, usersSnap, invsSnap, driversSnap, weeksSnap] = await Promise.all([
+      db.collection('brokers').get().catch(e=>{console.warn('brokers denied',e); return emptySnap;}),
+      db.collection('users').get().catch(e=>{console.warn('users denied',e); return emptySnap;}),
+      db.collection('invitations').get().catch(e=>{console.warn('invitations denied',e); return emptySnap;}),
+      db.collectionGroup('drivers').get().catch(e=>{console.warn('drivers group denied',e); return emptySnap;}),
+      db.collectionGroup('weeks').get().catch(e=>{console.warn('weeks group denied',e); return emptySnap;})
+    ]);
+    const brokers=brokersSnap.docs, active=brokers.filter(d=>d.data().active!==false).length, inactive=brokers.length-active;
+    const planCounts=countBy(brokersSnap.docs,'plan');
+    const brokerRows=brokers.slice(0,6).map(d=>`<tr><td>${safe(d.data().companyName)}</td><td>${safe(d.data().email)}</td><td><span class="badge plan">${safe(d.data().plan||'pro')}</span></td><td>${d.data().active===false?'<span class="dangerText">Non</span>':'<span class="successText">Oui</span>'}</td></tr>`).join('');
+    c.innerHTML = `<div class="grid">
+      ${statsCard('Brokers', brokersSnap.size, `${active} actifs / ${inactive} désactivés`, 'col-3')}
+      ${statsCard('Chauffeurs', driversSnap.size, 'Tous brokers confondus', 'col-3')}
+      ${statsCard('Utilisateurs', usersSnap.size, 'Comptes application', 'col-3')}
+      ${statsCard('Invitations', invsSnap.size, 'Invitations envoyées', 'col-3')}
+      ${card(`<h2>Plans</h2><div class="row"><span class="badge">Free: ${planCounts.free||0}</span><span class="badge">Pro: ${planCounts.pro||0}</span><span class="badge">Enterprise: ${planCounts.enterprise||0}</span></div><p class="muted">Limites : Free 5 chauffeurs, Pro 50, Enterprise illimité.</p>`,'col-4')}
+      ${card(`<h2>Brokers récents</h2><div class="wide"><table><tr><th>Compagnie</th><th>Email</th><th>Plan</th><th>Actif</th></tr>${brokerRows||'<tr><td colspan="4">Aucun broker</td></tr>'}</table></div>`,'col-8')}
+    </div>`;
+  }
+  if(currentTab==='brokers'){
+    const snap = await db.collection('brokers').orderBy('createdAt','desc').get().catch(()=>db.collection('brokers').get());
+    c.innerHTML = `<div class="grid">
+      ${card(`<h2>Créer Broker</h2><label>Nom compagnie</label><input id="bCompany"><label>Nom responsable</label><input id="bOwner"><label>Email broker</label><input id="bEmail" type="email"><label>Station Intelcom</label><input id="bStation" placeholder="ex: MONT, HICK"><label>Mot de passe temporaire / suggestion</label><input id="bTemp" placeholder="généré automatiquement si vide"><label>Plan</label><select id="bPlan" onchange="document.getElementById('bMax').value=planLimit(this.value)"><option value="free">free</option><option value="pro" selected>pro</option><option value="enterprise">enterprise</option></select><label>Max chauffeurs</label><input id="bMax" type="number" value="50"><button class="green" style="margin-top:12px" onclick="createBroker()">Créer Broker + Invitation</button><p class="muted small">Crée broker + invitation Firestore. Gmail sert seulement à envoyer le lien prérempli.</p>`,'col-4')}
+      ${card(`<div class="sectionTitle"><h2>Brokers</h2><input id="brokerSearch" class="search" placeholder="Rechercher" oninput="filterRows('brokerTable', this.value)"></div><div class="wide"><table id="brokerTable"><tr><th>Compagnie</th><th>Email</th><th>Station</th><th>Plan</th><th>Limite</th><th>Actif</th><th>Invitation</th><th>Actions</th></tr>${snap.docs.map(d=>brokerRow(d.id,d.data())).join('')}</table></div>`,'col-8')}
+    </div>`;
+  }
+  if(currentTab==='plans'){
+    c.innerHTML = `<div class="grid">
+      ${card(`<h2>Free</h2><div class="big">5</div><p class="muted">chauffeurs max</p><ul><li>Import PDF</li><li>Relevés de base</li></ul>`,'col-4')}
+      ${card(`<h2>Pro</h2><div class="big">50</div><p class="muted">chauffeurs max</p><ul><li>Portail chauffeur</li><li>Barèmes</li><li>Historique</li></ul>`,'col-4')}
+      ${card(`<h2>Enterprise</h2><div class="big">∞</div><p class="muted">chauffeurs illimités</p><ul><li>Multi-stations</li><li>Support prioritaire</li><li>Rapports avancés</li></ul>`,'col-4')}
+    </div>`;
+  }
+  if(currentTab==='invitations'){
+    const snap = await db.collection('invitations').orderBy('createdAt','desc').limit(150).get().catch(()=>db.collection('invitations').limit(150).get());
+    c.innerHTML = card(`<div class="sectionTitle"><h2>Invitations</h2><input class="search" placeholder="Rechercher email" oninput="filterRows('invTable', this.value)"></div><div class="wide"><table id="invTable"><tr><th>Email</th><th>Rôle</th><th>Broker</th><th>Utilisée</th><th>Actions</th></tr>${snap.docs.map(d=>inviteRow(d.id,d.data())).join('')}</table></div>`);
+  }
+}
+function brokerRow(id,b){ const inv = {email:b.email, name:b.ownerName, role:'broker', brokerId:id, tempPassword:b.tempPassword||''}; const limit=b.maxDrivers||planLimit(b.plan||'pro'); return `<tr class="${b.active===false?'disabled':''}"><td>${safe(b.companyName)}</td><td>${safe(b.email)}</td><td>${safe(b.station||'')}</td><td><span class="badge plan">${safe(b.plan||'pro')}</span></td><td>${safe(limit)}</td><td>${b.active===false?'<span class="dangerText">Non</span>':'<span class="successText">Oui</span>'}</td><td><button class="mini secondary" onclick='openGmail(${JSON.stringify(inv).replace(/'/g,"&#39;")})'>Gmail</button> <button class="mini secondary" onclick='copyInvite(${JSON.stringify(inv).replace(/'/g,"&#39;")})'>Copier</button></td><td>${b.active===false?`<button class="mini green" onclick="toggleBroker('${id}',true)">Réactiver</button>`:`<button class="mini orange" onclick="toggleBroker('${id}',false)">Désactiver</button>`} <button class="mini secondary" onclick="editBrokerPlan('${id}','${safe(b.plan||'pro')}')">Plan</button> <button class="mini red" onclick="deleteBroker('${id}')">Supprimer</button></td></tr>`; }
+function inviteRow(id,inv){
+  const used = !!(inv.used || inv.usedBy);
+  const archived = !!inv.archived;
+  const status = archived ? '<span class="muted">Archivée</span>' : (used ? '<span class="successText">Acceptée</span>' : '<span class="dangerText">En attente</span>');
+  const mainAction = archived
+    ? `<button class="mini green" onclick="restoreInvitation('${id}')">Restaurer</button>`
+    : (used ? `<button class="mini orange" onclick="deleteInvitation('${id}')">Archiver</button>` : `<button class="mini red" onclick="deleteInvitation('${id}')">Supprimer</button>`);
+  const mailActions = archived ? '' : `<button class="mini secondary" onclick='openGmail(${JSON.stringify(inv).replace(/'/g,"&#39;")})'>Gmail</button> <button class="mini secondary" onclick='copyInvite(${JSON.stringify(inv).replace(/'/g,"&#39;")})'>Copier</button>`;
+  return `<tr class="${archived?'disabled':''}"><td>${safe(inv.email)}</td><td>${safe(inv.role)}</td><td>${safe(inv.brokerId)}</td><td>${status}</td><td>${mailActions} ${mainAction}</td></tr>`;
+}
+window.createBroker = async()=>{
+  try{
+    const email=normEmail($('bEmail').value); if(!email) return showMsg('Email broker obligatoire','err');
+    const brokerId = 'broker_' + Date.now(); const temp = $('bTemp').value.trim() || tempPass();
+    const data = {companyName:$('bCompany').value.trim(), ownerName:$('bOwner').value.trim(), email, emailLower:email, station:$('bStation').value.trim(), plan:$('bPlan').value, maxDrivers:Number($('bMax').value||planLimit($('bPlan').value)), active:true, tempPassword:temp, createdAt:now(), createdBy:currentUser.uid};
+    await db.collection('brokers').doc(brokerId).set(data);
+    await bcol('settings', brokerId).doc('company').set({brokerId, companyName:data.companyName, station:data.station, email:data.email, createdAt:now()}, {merge:true});
+    const inv = {email, emailLower:email, name:data.ownerName, role:'broker', brokerId, brokerName:data.companyName, tempPassword:temp, used:false, createdAt:now(), createdBy:currentUser.uid};
+    await saveInvitationIndex(inv);
+    showMsg('Broker + invitation Firestore créés. Utilise le bouton Gmail pour envoyer le lien.','ok'); render();
+  }catch(e){ showMsg(humanError(e),'err'); }
+};
+window.toggleBroker = async(id,active)=>{ try{ await db.collection('brokers').doc(id).set({active}, {merge:true}); showMsg(active?'Broker réactivé':'Broker désactivé','ok'); render(); }catch(e){showMsg(humanError(e),'err')} };
+window.editBrokerPlan = async(id,current)=>{ const plan=prompt('Plan: free, pro ou enterprise', current||'pro'); if(!plan) return; const max=planLimit(plan); try{ await db.collection('brokers').doc(id).set({plan,maxDrivers:max},{merge:true}); showMsg('Plan modifié','ok'); render(); }catch(e){showMsg(humanError(e),'err')} };
+function filterRows(tableId,q){ q=normEmail(q); const table=document.getElementById(tableId); if(!table) return; Array.from(table.querySelectorAll('tr')).slice(1).forEach(tr=>{ tr.style.display=tr.innerText.toLowerCase().includes(q)?'':'none'; }); };
+async function deleteQuery(q){ const s=await q.get(); const docs=s.docs; for(let i=0;i<docs.length;i+=400){ const batch=db.batch(); docs.slice(i,i+400).forEach(d=>batch.delete(d.ref)); await batch.commit(); } }
+window.deleteBroker = async(id)=>{ if(!confirm('Supprimer ce broker et ses données liées ?')) return; try{ await deleteQuery(db.collection('invitations').where('brokerId','==',id)); await deleteBrokerNestedData(id); await db.collection('brokers').doc(id).delete(); showMsg('Broker supprimé','ok'); render(); }catch(e){ showMsg(humanError(e),'err'); } };
+async function getInvitationAny(id){
+  let ref = db.collection('invitations').doc(id);
+  let snap = await ref.get().catch(()=>null);
+  if(snap && snap.exists) return {ref, data:snap.data()};
+  if(profile?.brokerId){
+    ref = bcol('invitations', profile.brokerId).doc(id);
+    snap = await ref.get().catch(()=>null);
+    if(snap && snap.exists) return {ref, data:snap.data()};
+  }
+  return null;
+}
+async function archiveAccountFromInvitation(inv, archive=true){
+  const patch = archive ? {active:false, archived:true, archivedAt:now(), archivedBy:currentUser.uid} : {active:true, archived:false, restoredAt:now(), restoredBy:currentUser.uid};
+  if(inv.role === 'broker' && inv.brokerId){
+    await db.collection('brokers').doc(inv.brokerId).set(patch,{merge:true}).catch(()=>{});
+  }
+  if(inv.role === 'driver' && inv.brokerId && inv.driverId){
+    await bcol('drivers', inv.brokerId).doc(inv.driverId).set(patch,{merge:true}).catch(()=>{});
+  }
+}
+window.deleteInvitation = async(id)=>{
+  try{
+    const found = await getInvitationAny(id);
+    if(!found) return showMsg('Invitation introuvable','err');
+    const inv = found.data;
+    const accountCreated = !!(inv.used || inv.usedBy);
+    if(!accountCreated){
+      if(!confirm('Cette invitation n’a pas encore été utilisée. La supprimer définitivement ?')) return;
+      await db.collection('invitations').doc(id).delete().catch(()=>{});
+      if(inv.brokerId) await bcol('invitations', inv.brokerId).doc(id).delete().catch(()=>{});
+      showMsg('Invitation supprimée','ok');
+    }else{
+      if(!confirm('Le compte existe déjà. Archiver cette invitation et désactiver le compte lié ?')) return;
+      const patch={archived:true, active:false, archivedAt:now(), archivedBy:currentUser.uid};
+      await db.collection('invitations').doc(id).set(patch,{merge:true}).catch(()=>{});
+      if(inv.brokerId) await bcol('invitations', inv.brokerId).doc(id).set(patch,{merge:true}).catch(()=>{});
+      await archiveAccountFromInvitation(inv, true);
+      showMsg('Invitation archivée','ok');
+    }
+    render();
+  }catch(e){showMsg(humanError(e),'err')}
+};
+window.restoreInvitation = async(id)=>{
+  try{
+    const found = await getInvitationAny(id);
+    if(!found) return showMsg('Invitation introuvable','err');
+    const inv = found.data;
+    const patch={archived:false, active:true, restoredAt:now(), restoredBy:currentUser.uid};
+    await db.collection('invitations').doc(id).set(patch,{merge:true}).catch(()=>{});
+    if(inv.brokerId) await bcol('invitations', inv.brokerId).doc(id).set(patch,{merge:true}).catch(()=>{});
+    await archiveAccountFromInvitation(inv, false);
+    showMsg('Invitation restaurée','ok');
+    render();
+  }catch(e){showMsg(humanError(e),'err')}
+};
+async function renderBroker(){
+  const c=$('content'); const brokerId=profile.brokerId;
+  const brokerDoc = await db.collection('brokers').doc(brokerId).get().catch(()=>null);
+  const broker = brokerDoc?.exists ? brokerDoc.data() : {};
+  const companyDoc = await bcol('settings', brokerId).doc('company').get().catch(()=>null);
+  const companySettings = companyDoc?.exists ? companyDoc.data() : {};
+  // Les informations PDF viennent des paramètres du broker, jamais de valeurs démo codées en dur.
+  window.currentBroker = {...broker, ...companySettings, brokerId};
+  const max = broker.maxDrivers || planLimit(broker.plan || 'pro');
+  if(currentTab==='factures') return renderBrokerFactures(broker);
+  if(currentTab==='dashboard'){
+    const emptySnap = { size: 0, docs: [] };
+    const [drivers, invs, weeks, notifs] = await Promise.all([
+      bcol('drivers', brokerId).get().catch((e)=>{ console.warn('drivers dashboard', e); return emptySnap; }),
+      bcol('invitations', brokerId).get().catch((e)=>{ console.warn('invitations dashboard', e); return emptySnap; }),
+      bcol('weeks', brokerId).get().catch((e)=>{ console.warn('weeks dashboard', e); return emptySnap; }),
+      bcol('notifications', brokerId).get().catch((e)=>{ console.warn('notifications dashboard', e); return emptySnap; })
+    ]);
+    const activeDrivers=drivers.docs.filter(d=>d.data().active!==false).length;
+    const disabledDrivers=drivers.size-activeDrivers;
+    const pendingDrivers=drivers.docs.filter(d=>d.data().status==='pending' || d.data().profileCompleted===false);
+    const unreadNotifs=notifs.docs.filter(d=>d.data().read!==true);
+    c.innerHTML = `<div class="grid">
+      ${statsCard('Chauffeurs', `${activeDrivers}/${max}`, `Actifs (${disabledDrivers} désactivés)`, 'col-3')}
+      ${statsCard('À compléter', pendingDrivers.length, 'Chauffeurs importés depuis PDF', 'col-3')}
+      ${statsCard('Notifications', unreadNotifs.length, 'Non lues', 'col-3')}
+      ${statsCard('Plan', broker.plan||'pro', safe(broker.companyName||''), 'col-3')}
+      ${card(`<h2>🔔 Notifications broker</h2>${unreadNotifs.length?`<div class="wide"><table><tr><th>Type</th><th>Message</th><th>Action</th></tr>${unreadNotifs.map(n=>{const x=n.data(); const duplicateBtn=x.type==='duplicate_invoice'?`<button class="mini orange" onclick="openDuplicateCompare('${safe(n.id)}','${safe(x.duplicateId||'')}')">Comparer</button> `:''; return `<tr><td>${safe(x.type)}</td><td>${safe(x.message||'Notification')}</td><td>${duplicateBtn}<button class="mini secondary" onclick="markNotificationRead('${n.id}')">Lu</button></td></tr>`}).join('')}</table></div>`:'<p class="muted">Aucune notification.</p>'}`,'col-6')}
+      ${card(`<h2>⚠️ Chauffeurs à compléter</h2>${pendingDrivers.length?`<div class="wide"><table><tr><th>Nom</th><th>Code</th><th>Email</th><th>Action</th></tr>${pendingDrivers.map(d=>{const x=d.data();return `<tr><td>${safe(x.name)}</td><td>${safe(x.code)}</td><td>${safe(x.email||'manquant')}</td><td><button class="mini green" onclick="completePendingDriver('${d.id}')">Compléter</button></td></tr>`}).join('')}</table></div>`:'<p class="muted">Aucun chauffeur en attente.</p>'}`,'col-6')}
+      ${card(`<h2>État du compte</h2><p>Broker : <b>${safe(broker.companyName||profile.name||'')}</b></p><p>Station : <b>${safe(broker.station||'Non définie')}</b></p><p>Limite chauffeurs : <b>${max}</b></p>`,'col-6')}
+      ${card(`<h2>Factures Intelcom</h2><p>L’onglet <b>Factures</b> détecte maintenant les chauffeurs inconnus, crée leur profil en attente et sauvegarde les factures sans les perdre.</p>`,'col-6')}
+    </div>`;
+  }
+  if(currentTab==='drivers'){
+    const snap=await bcol('drivers', brokerId).get();
+    const canAdd = snap.size < max;
+    c.innerHTML=`<div class="grid">
+      ${card(`<h2>Ajouter Chauffeur</h2>${canAdd?'':`<div class="notice warn">Limite du plan atteinte (${snap.size}/${max}).</div>`}<label>Nom</label><input id="dName" ${canAdd?'':'disabled'}><label>Code Intelcom</label><input id="dCode" ${canAdd?'':'disabled'}><label>Email</label><input id="dEmail" type="email" ${canAdd?'':'disabled'}><label>Téléphone</label><input id="dPhone" ${canAdd?'':'disabled'}><label>Commission broker personnalisée (%)</label><input id="dCommission" type="number" step="0.01" placeholder="ex: 25" ${canAdd?'':'disabled'}><label>Mot de passe temporaire / suggestion</label><input id="dTemp" placeholder="généré automatiquement si vide" ${canAdd?'':'disabled'}><button class="green" style="margin-top:12px" onclick="createDriverInvite()" ${canAdd?'':'disabled'}>Créer Chauffeur + Invitation</button>`,'col-4')}
+      ${card(`<div class="sectionTitle"><h2>Chauffeurs (${snap.size}/${max})</h2><input class="search" placeholder="Rechercher" oninput="filterRows('driversTable', this.value)"></div><div class="notice bluebox">Les chauffeurs importés depuis un PDF mais absents de la base apparaissent avec le statut <b>À compléter</b>.</div><div class="wide"><table id="driversTable"><tr><th>Nom</th><th>Code</th><th>Email</th><th>Téléphone</th><th>Commission</th><th>Statut</th><th>Actif</th><th>Invitation</th><th>Actions</th></tr>${snap.docs.map(d=>{const x=d.data(); const pending=(x.status==='pending'||x.profileCompleted===false); const inv={email:x.email,name:x.name,role:'driver',brokerId:x.brokerId,tempPassword:x.tempPassword||''}; const pct=(x.commissionPercent!==undefined && x.commissionPercent!=='' && x.commissionPercent!==null)?Number(x.commissionPercent):0; return `<tr><td>${safe(x.name)}</td><td>${safe(x.code)}</td><td>${safe(x.email||'')}</td><td>${safe(x.phone||'')}</td><td><input style="width:70px" type="number" step="0.01" value="${pct}" onchange="updateDriverCommission('${d.id}', this.value)"> %</td><td>${pending?'<span class="dangerText">À compléter</span>':'<span class="successText">Complet</span>'}</td><td>${x.active===false?'<span class="dangerText">Non</span>':'<span class="successText">Oui</span>'}</td><td>${x.email?`<button class="mini secondary" onclick='openGmail(${JSON.stringify(inv).replace(/'/g,"&#39;")})'>Gmail</button> <button class="mini secondary" onclick='copyInvite(${JSON.stringify(inv).replace(/'/g,"&#39;")})'>Copier</button>`:'<span class="muted">Email manquant</span>'}</td><td>${pending?`<button class="mini green" onclick="completePendingDriver('${d.id}')">Compléter</button> `:''}<button class="mini orange" onclick="toggleDriver('${d.id}',${x.active===false?'true':'false'})">${x.active===false?'Réactiver':'Désactiver'}</button> <button class="mini red" onclick="deleteDriver('${d.id}')">Supprimer</button></td></tr>`}).join('')}</table></div>`,'col-8')}
+    </div>`;
+  }
+  if(currentTab==='weeks'){
+    const snap=await bcol('weeks', brokerId).get().catch(()=>({docs:[]}));
+    const docs=snap.docs.sort((a,b)=>String(b.data().week||'').localeCompare(String(a.data().week||'')) || String(a.data().driverName||'').localeCompare(String(b.data().driverName||'')));
+    c.innerHTML=card(`<div class="sectionTitle"><h2>Historique des relevés</h2><input id="brokerWeekSearch" class="search" placeholder="Rechercher chauffeur, code, semaine" oninput="filterRows('brokerWeeksTable', this.value)"></div><div class="notice bluebox">Recherche par chauffeur, code Intelcom ou semaine. Le PDF se génère à la demande sans Storage.</div><div class="wide"><table id="brokerWeeksTable"><tr><th>Période</th><th>Semaine</th><th>Chauffeur</th><th>Code</th><th>Total</th><th>Statut</th><th>PDF</th></tr>${docs.map(d=>{const w=d.data(); return `<tr><td>${weekLabel(w.week,w.from,w.to)}</td><td>${safe(w.week)}</td><td>${safe(w.driverName||w.driverId)}</td><td>${safe(w.driverCode||'')}</td><td>${money(w.total)}</td><td>${safe(w.status||'brouillon')}</td><td><button class="mini" onclick="downloadDriverWeek('${d.ref?.path || d.id}')">Télécharger PDF</button></td></tr>`}).join('')||'<tr><td colspan="7">Aucun relevé importé</td></tr>'}</table></div>`);
+  }
+  if(currentTab==='invitations'){
+    const snap=await bcol('invitations', brokerId).get().catch(()=>db.collection('invitations').where('brokerId','==',brokerId).get());
+    c.innerHTML=card(`<div class="sectionTitle"><h2>Invitations</h2><input class="search" placeholder="Rechercher" oninput="filterRows('brokerInvTable', this.value)"></div><div class="wide"><table id="brokerInvTable"><tr><th>Email</th><th>Rôle</th><th>Utilisée</th><th>Actions</th></tr>${snap.docs.map(d=>inviteRow(d.id,d.data())).join('')}</table></div>`);
+  }
+
+  if(currentTab==='vehicles'){
+    const snap=await bcol('vehicles', brokerId).get().catch(()=>({docs:[]}));
+    c.innerHTML=`<div class="grid">
+      ${card(`<h2>Ajouter véhicule</h2><p class="muted">Le broker entre toute sa flotte. Le type sert ensuite aux barèmes automatiques.</p><label>Nom du véhicule</label><input id="vehName" placeholder="Toyota Sienna"><label>Immatriculation</label><input id="vehPlate" placeholder="ABC123"><label>Type</label><select id="vehType">${VEHICLES.map(v=>`<option value="${v}">${VEHICLE_LABEL[v]}</option>`).join('')}</select><button class="green" style="margin-top:12px" onclick="saveVehicle()">Ajouter véhicule</button>`,'col-4')}
+      ${card(`<div class="sectionTitle"><h2>Véhicules du broker</h2><input class="search" placeholder="Rechercher" oninput="filterRows('vehiclesTable', this.value)"></div><div class="wide"><table id="vehiclesTable"><tr><th>Nom</th><th>Immatriculation</th><th>Type</th><th>Statut</th><th>Actions</th></tr>${snap.docs.map(v=>{const x=v.data();return `<tr><td><input value="${safe(x.name||'')}" onchange="updateVehicle('${v.id}','name',this.value)"></td><td><input value="${safe(x.plate||'')}" onchange="updateVehicle('${v.id}','plate',this.value)"></td><td><select onchange="updateVehicle('${v.id}','type',this.value)">${VEHICLES.map(t=>`<option value="${t}" ${x.type===t?'selected':''}>${VEHICLE_LABEL[t]}</option>`).join('')}</select></td><td>${x.active===false?'<span class="dangerText">Désactivé</span>':'<span class="successText">Actif</span>'}</td><td><button class="mini orange" onclick="toggleVehicle('${v.id}',${x.active===false?'true':'false'})">${x.active===false?'Réactiver':'Désactiver'}</button> <button class="mini red" onclick="deleteVehicle('${v.id}')">Supprimer</button></td></tr>`}).join('')||'<tr><td colspan="5">Aucun véhicule</td></tr>'}</table></div>`,'col-8')}
+    </div>`;
+    return;
+  }
+  if(currentTab==='dispatch'){
+    const [driversSnap, vehiclesSnap]=await Promise.all([bcol('drivers', brokerId).get(), bcol('vehicles', brokerId).where('active','!=',false).get().catch(async()=>bcol('vehicles', brokerId).get())]);
+    const drivers=driversSnap.docs.map(d=>({id:d.id,...d.data()})).filter(d=>d.active!==false);
+    const vehicles=vehiclesSnap.docs.map(v=>({id:v.id,...v.data()})).filter(v=>v.active!==false);
+    const weekVal=localStorage.getItem('dispatch_week') || currentIsoWeek();
+    c.innerHTML=`<div class="grid">
+      ${card(`<h2>Dispatch semaine</h2><p class="muted">Assigne les jours de travail et véhicules. Les chauffeurs verront ce planning et les factures utiliseront automatiquement le type Essence / Électrique / Hybride / Adapté pour les barèmes.</p><label>Semaine de travail</label><input id="dispatchWeek" value="${safe(weekVal)}" onchange="localStorage.setItem('dispatch_week',this.value);render()"><div class="notice bluebox"><b>${weekPeriodFromWeek(weekVal).label}</b><br><span class="muted">Semaine ISO ${safe(weekVal)} — la semaine commence toujours lundi et finit dimanche.</span></div><div class="notice bluebox">Pour chaque jour : choisis Repos ou un véhicule. Le PDF utilisera ces choix automatiquement lors de l'import Intelcom.</div>`,'col-12')}
+      ${card(`<div class="wide"><table><tr><th>Chauffeur</th>${weekDatesFromWeek(weekVal).map(d=>`<th>${dispatchDayHeader(d)}</th>`).join('')}<th>Action</th></tr>${drivers.map(dr=>`<tr><td><b>${safe(dr.name)}</b><br><span class="muted">${safe(dr.code)}</span></td>${weekDatesFromWeek(weekVal).map(dt=>`<td>${dispatchSelectHtml(dr.id,dt,vehicles)}</td>`).join('')}<td><button class="mini green" onclick="saveDispatchForDriver('${dr.id}')">Sauver</button></td></tr>`).join('')||'<tr><td colspan="9">Ajoute d’abord des chauffeurs.</td></tr>'}</table></div>`,'col-12')}
+    </div>`;
+    return;
+  }
+  if(currentTab==='settings'){
+    c.innerHTML=`<div class="grid">
+      ${card(`<h2>🏢 Entreprise</h2><p class="muted">Ces informations apparaissent dans les relevés PDF.</p><div class="grid"><div class="col-6"><label>Nom entreprise</label><input id="setCompany" value="${safe(broker.companyName||'')}"></div><div class="col-6"><label>Station Intelcom</label><input id="setStation" value="${safe(broker.station||'')}"></div><div class="col-6"><label>Paiement à l'ordre de</label><input id="setOwner" value="${safe(broker.ownerName||profile.name||'')}"></div><div class="col-6"><label>Email entreprise</label><input id="setEmail" value="${safe(broker.email||currentUser.email||'')}"></div><div class="col-6"><label>Téléphone</label><input id="setPhone" value="${safe(broker.phone||'')}"></div><div class="col-6"><label>Règlement</label><input id="setPayment" value="${safe(broker.paymentMethod||'Par virement bancaire')}"></div><div class="col-12"><label>Adresse entreprise</label><textarea id="setAddress" rows="4">${safe(broker.address||'')}</textarea></div></div><button class="green" style="margin-top:12px" onclick="saveBrokerSettings()">Sauvegarder entreprise</button>`,'col-6')}
+      ${card(`<h2>💰 Paramètres de facturation</h2><p class="muted">La commission broker n’est pas ici : elle se règle dans chaque fiche chauffeur.</p><label>Mode frais broker</label><select id="setFeeMode" onchange="invoiceSettings.feeMode=this.value;saveInvoiceLocal();render()"><option value="daily_fixed" ${invoiceSettings.feeMode==='daily_fixed'?'selected':''}>Frais fixe par jour travaillé</option><option value="bracket_daily" ${invoiceSettings.feeMode==='bracket_daily'?'selected':''}>Barème par colis</option></select><label>Frais fixe / jour travaillé</label><input id="setFixedFee" type="number" step="0.01" value="${invoiceSettings.fixedFee}" onchange="invoiceSettings.fixedFee=Number(this.value);saveInvoiceLocal()"><div class="notice bluebox">Les barèmes et frais sont des paramètres permanents du broker. La page Factures sert seulement à importer/générer.</div><button class="green" onclick="saveInvoiceLocal();showMsg('Paramètres de facturation sauvegardés','ok')">Sauvegarder facturation</button>`,'col-6')}
+      ${card(`<h2>📋 Barèmes Intelcom</h2><p class="muted">Barèmes par type de véhicule. Le broker peut ajouter, modifier ou supprimer les tranches ici.</p>${renderBracketsHtml()}`,'col-12')}
+    </div>`;
+  }
+}
+window.createDriverInvite = async()=>{ try{ const brokerId=profile.brokerId; const email=normEmail($('dEmail').value); if(!email) return showMsg('Email chauffeur obligatoire','err'); const driverId='driver_'+Date.now(); const temp=$('dTemp').value.trim()||tempPass(); const commissionPercent=Number($('dCommission')?.value || 0); const data={brokerId,name:$('dName').value.trim(),code:$('dCode').value.trim(),email,emailLower:email,phone:$('dPhone').value.trim(),commissionPercent,tempPassword:temp,active:true,createdAt:now(),createdBy:currentUser.uid}; await bcol('drivers', brokerId).doc(driverId).set(data); const inv={email,emailLower:email,name:data.name,role:'driver',brokerId,driverId,tempPassword:temp,used:false,createdAt:now(),createdBy:currentUser.uid}; await saveInvitationIndex(inv); showMsg('Chauffeur + invitation Firestore créés. Utilise le bouton Gmail pour envoyer le lien.','ok'); render(); }catch(e){ showMsg(humanError(e),'err'); } };
+window.updateDriverCommission = async(id,value)=>{ try{ await bcol('drivers', profile.brokerId).doc(id).set({commissionPercent:Number(value||0), updatedAt:now()}, {merge:true}); showMsg('Commission chauffeur mise à jour','ok'); }catch(e){ showMsg(humanError(e),'err'); } };
+
+window.saveVehicle=async()=>{ try{ const brokerId=profile.brokerId; const name=$('vehName').value.trim(); const plate=$('vehPlate').value.trim().toUpperCase(); const type=$('vehType').value; if(!name||!plate) return showMsg('Nom et immatriculation obligatoires','err'); await bcol('vehicles', brokerId).add({name,plate,type,active:true,createdAt:now(),createdBy:currentUser.uid}); showMsg('Véhicule ajouté','ok'); render(); }catch(e){ showMsg(humanError(e),'err'); } };
+window.updateVehicle=async(id,field,value)=>{ try{ const patch={updatedAt:now()}; patch[field]=field==='plate'?String(value||'').toUpperCase():value; await bcol('vehicles', profile.brokerId).doc(id).set(patch,{merge:true}); }catch(e){ showMsg(humanError(e),'err'); } };
+window.toggleVehicle=async(id,active)=>{ try{ await bcol('vehicles', profile.brokerId).doc(id).set({active,updatedAt:now()},{merge:true}); showMsg(active?'Véhicule réactivé':'Véhicule désactivé','ok'); render(); }catch(e){ showMsg(humanError(e),'err'); } };
+window.deleteVehicle=async(id)=>{ if(!confirm('Supprimer ce véhicule ?')) return; try{ await bcol('vehicles', profile.brokerId).doc(id).delete(); showMsg('Véhicule supprimé','ok'); render(); }catch(e){ showMsg(humanError(e),'err'); } };
+function toIsoDateLocal(d){ const x=new Date(d); x.setHours(12,0,0,0); return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'); }
+function isoWeekFromDate(dateObj){
+  const d=new Date(dateObj); d.setHours(0,0,0,0);
+  d.setDate(d.getDate()+3-((d.getDay()+6)%7));
+  const week1=new Date(d.getFullYear(),0,4);
+  return d.getFullYear()+'-'+String(1+Math.round(((d-week1)/86400000-3+((week1.getDay()+6)%7))/7)).padStart(2,'0');
+}
+function isoWeekFromDateString(dateStr){ const d=new Date(String(dateStr||'')+'T12:00:00'); if(isNaN(d)) return ''; return isoWeekFromDate(d); }
+function currentIsoWeek(){ return isoWeekFromDate(new Date()); }
+function weekDatesFromWeek(week){
+  const m=String(week||'').match(/(20\d{2})-(\d{1,2})/);
+  if(!m){ const d=new Date(); const dow=(d.getDay()+6)%7; const monday=new Date(d); monday.setDate(d.getDate()-dow); return [0,1,2,3,4,5,6].map(i=>{const x=new Date(monday);x.setDate(monday.getDate()+i);return toIsoDateLocal(x);}); }
+  const year=Number(m[1]), w=Number(m[2]);
+  const jan4=new Date(year,0,4); const dow=(jan4.getDay()+6)%7;
+  const monday=new Date(jan4); monday.setDate(jan4.getDate()-dow+(w-1)*7);
+  return [0,1,2,3,4,5,6].map(i=>{const x=new Date(monday);x.setDate(monday.getDate()+i);return toIsoDateLocal(x);});
+}
+function fmtDateFr(dateStr, opts={}){ const d=new Date(String(dateStr||'')+'T12:00:00'); if(isNaN(d)) return String(dateStr||''); return d.toLocaleDateString('fr-CA',{weekday:opts.weekday?'short':undefined, day:'2-digit', month:opts.long?'long':'short', year:opts.year?'numeric':undefined}).replace(/\.$/,''); }
+function weekPeriodFromWeek(week){ const ds=weekDatesFromWeek(week); return {start:ds[0], end:ds[6], label:`${fmtDateFr(ds[0],{long:true,year:true})} au ${fmtDateFr(ds[6],{long:true,year:true})}`, short:`${fmtDateFr(ds[0])} → ${fmtDateFr(ds[6])}`}; }
+function weekLabel(week, from='', to=''){ if(from&&to) return `${fmtDateFr(from,{long:false,year:true})} → ${fmtDateFr(to,{long:false,year:true})}<br><span class="muted">Semaine ${safe(week||isoWeekFromDateString(from))}</span>`; const p=weekPeriodFromWeek(week); return `${p.short}<br><span class="muted">Semaine ${safe(week)}</span>`; }
+function weekPlainLabel(week, from='', to=''){ if(from&&to) return `${fmtDateFr(from,{long:true,year:true})} au ${fmtDateFr(to,{long:true,year:true})} — semaine ${week||isoWeekFromDateString(from)}`; const p=weekPeriodFromWeek(week); return `${p.label} — semaine ${week}`; }
+function dispatchDayHeader(dateStr){ const d=new Date(String(dateStr)+'T12:00:00'); const day=d.toLocaleDateString('fr-CA',{weekday:'short'}).replace('.',''); return `${day.charAt(0).toUpperCase()+day.slice(1)}<br>${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`; }
+function dispatchSelectHtml(driverId,date,vehicles){ const id=`disp_${driverId}_${date}`.replace(/[^A-Za-z0-9_]/g,'_'); return `<select id="${id}"><option value="rest">Repos</option>${vehicles.map(v=>`<option value="${v.id}|${safe(v.name)}|${safe(v.plate)}|${v.type}">${safe(v.name)} — ${safe(v.plate)} (${VEHICLE_LABEL[v.type]||v.type})</option>`).join('')}</select>`; }
+window.saveDispatchForDriver=async(driverId)=>{ try{ const brokerId=profile.brokerId; const week=$('dispatchWeek').value.trim()||currentIsoWeek(); const driverDoc=await bcol('drivers',brokerId).doc(driverId).get(); const driver=driverDoc.exists?driverDoc.data():{}; const days={}; for(const date of weekDatesFromWeek(week)){ const el=$(`disp_${driverId}_${date}`.replace(/[^A-Za-z0-9_]/g,'_')); const val=el?.value||'rest'; if(val==='rest'){ days[date]={working:false,vehicleId:null,vehicleName:'Repos',plate:'',vehicleType:''}; } else { const [vehicleId,vehicleName,plate,vehicleType]=val.split('|'); days[date]={working:true,vehicleId,vehicleName,plate,vehicleType,confirmedByDriver:false,conflictConfirmed:false}; } } await bcol('dispatch',brokerId).doc(`${week}_${driverId}`).set({brokerId,week,driverId,driverName:driver.name||'',driverCode:driver.code||'',days,updatedAt:now(),updatedBy:currentUser.uid},{merge:true}); showMsg('Dispatch sauvegardé pour '+(driver.name||driverId),'ok'); }catch(e){ showMsg(humanError(e),'err'); } };
+async function applyDispatchToInvoice(inv){ try{ const brokerId=profile?.brokerId; if(!brokerId||!inv?.driverId||!inv?.week) return inv; const doc=await bcol('dispatch',brokerId).doc(`${inv.week}_${inv.driverId}`).get(); if(!doc.exists) return inv; const dispatch=doc.data().days||{}; (inv.days||[]).forEach(day=>{ const d=dispatch[day.date]; if(d){ day.vehicleId=d.vehicleId||''; day.vehicleName=d.vehicleName||''; day.vehiclePlate=d.plate||''; day.vehicleType=d.vehicleType||day.vehicle||'essence'; day.vehicle=day.vehicleType; day.dispatchWorking=d.working!==false; } }); inv.dispatchApplied=true; return inv; }catch(e){ console.warn('applyDispatchToInvoice',e); return inv; } }
+window.toggleDriver = async(id,active)=>{ try{ await bcol('drivers', profile.brokerId).doc(id).set({active}, {merge:true}); showMsg(active?'Chauffeur réactivé':'Chauffeur désactivé','ok'); render(); }catch(e){showMsg(humanError(e),'err')} };
+window.deleteDriver = async(id)=>{ if(!confirm('Supprimer ce chauffeur ?')) return; try{ await bcol('drivers', profile.brokerId).doc(id).delete(); showMsg('Chauffeur supprimé','ok'); render(); }catch(e){showMsg(humanError(e),'err')} };
+window.saveBrokerSettings = async()=>{ try{ await db.collection('brokers').doc(profile.brokerId).set({companyName:$('setCompany').value.trim(),station:$('setStation').value.trim(),ownerName:$('setOwner').value.trim(),email:normEmail($('setEmail').value),phone:$('setPhone').value.trim(),paymentMethod:$('setPayment').value.trim(),address:$('setAddress').value.trim()},{merge:true}); await bcol('settings', profile.brokerId).doc('company').set({brokerId:profile.brokerId,companyName:$('setCompany').value.trim(),station:$('setStation').value.trim(),ownerName:$('setOwner').value.trim(),email:normEmail($('setEmail').value),phone:$('setPhone').value.trim(),paymentMethod:$('setPayment').value.trim(),address:$('setAddress').value.trim(),updatedAt:now()},{merge:true}); showMsg('Paramètres sauvegardés','ok'); render(); }catch(e){showMsg(humanError(e),'err')} };
+
+
+// ================= MODULE FACTURES INTELCOM v22.2 =================
+let invoiceDrivers = [];
+let invoiceSettings = { commission:0, feeMode:'bracket_daily', fixedFee:60, includeDetails:'yes', brackets:{
+  essence:[{min:0,max:100,fee:50},{min:101,max:200,fee:70},{min:201,max:9999,fee:95}],
+  electrique:[{min:0,max:100,fee:35},{min:101,max:200,fee:55},{min:201,max:9999,fee:75}],
+  hybride:[{min:0,max:100,fee:45},{min:101,max:200,fee:65},{min:201,max:9999,fee:85}],
+  diesel:[{min:0,max:100,fee:55},{min:101,max:200,fee:75},{min:201,max:9999,fee:100}]
+}};
+const VEHICLES=['essence','electrique','hybride','diesel'];
+const VEHICLE_LABEL={essence:'Essence',electrique:'Électrique',hybride:'Hybride',diesel:'Diesel'};
+function fmtMoney(n){return (Number(n)||0).toFixed(2)+' $'}
+function cleanMoney(n){const v=Number(n)||0; return Math.abs(v)<0.005?'0 $':v.toFixed(2)+' $'}
+function parseAmount(s){return Number(String(s||'').replace(/[^0-9.-]/g,''))||0}
+function loadInvoiceLocal(){ try{ invoiceSettings=Object.assign(invoiceSettings, JSON.parse(localStorage.getItem('v22_invoice_settings')||'{}')); invoiceDrivers=JSON.parse(localStorage.getItem('v22_invoice_drivers')||'[]'); }catch(e){} }
+function saveInvoiceLocal(){ localStorage.setItem('v22_invoice_settings', JSON.stringify(invoiceSettings)); localStorage.setItem('v22_invoice_drivers', JSON.stringify(invoiceDrivers)); }
+loadInvoiceLocal();
+let lastImportSummary = JSON.parse(localStorage.getItem('v25_last_import_summary')||'null');
+function saveImportSummary(obj){ lastImportSummary=obj; localStorage.setItem('v25_last_import_summary', JSON.stringify(obj)); }
+function renderImportSummary(){ if(!lastImportSummary) return ''; const s=lastImportSummary; return card(`<h2>✅ Contrôle du dernier import</h2><div class="grid"><div class="col-3"><div class="feeBox"><b>Relevés mis à jour</b><br><span class="big">${s.saved||0}</span></div></div><div class="col-3"><div class="feeBox"><b>Nouveaux chauffeurs</b><br><span class="big">${s.createdDrivers||0}</span></div></div><div class="col-3"><div class="feeBox"><b>PDF prêts</b><br><span class="big">${s.pdfs||0}</span></div></div><div class="col-3"><div class="feeBox"><b>Doublons</b><br><span class="big">${s.duplicates||0}</span></div></div></div>${(s.pendingDrivers||0)>0?`<div class="notice warn">⚠️ ${s.pendingDrivers} chauffeur(s) à compléter. <button class="mini orange" onclick="currentTab='drivers';render()">Ouvrir les chauffeurs</button></div>`:''}${(s.duplicates||0)>0?`<div class="notice warn">⚠️ ${s.duplicates} doublon(s) en attente de comparaison. Ouvre les notifications du dashboard broker.</div>`:''}`,'col-12'); }
+function bracketFee(vehicle, parcels){ const list=(invoiceSettings.brackets?.[vehicle]||[]).map(r=>({min:Number(r.min)||0,max:Number(r.max)||0,fee:Number(r.fee)||0})); const p=Number(parcels)||0; const row=list.find(r=>p>=r.min && p<=r.max); return row ? {fee:row.fee,label:row.min+'-'+row.max} : {fee:0,label:'aucune'}; }
+function calcInvoice(d){ const commissionBase=Number(d.totalInvoice||d.total||0); const commissionPercent=(d.commissionPercent!==undefined && d.commissionPercent!=='' && d.commissionPercent!==null)?Number(d.commissionPercent):0; const commission=commissionBase*(commissionPercent/100); let fee=0, details=[], missingVehicle=false; (d.days||[]).forEach(day=>{ if(Number(day.parcels||0)<=0 && Number(day.total||0)<=0) return; const vehicle=(day.vehicleType||day.vehicle||'').toLowerCase(); if(!vehicle){ missingVehicle=true; }
+    const type=vehicle || 'essence';
+    if(invoiceSettings.feeMode==='daily_fixed'){ fee += Number(invoiceSettings.fixedFee||0); details.push({date:day.date,parcels:day.parcels,vehicle:type,vehicleName:day.vehicleName||'',plate:day.vehiclePlate||day.plate||'',bracket:'Jour travaillé',fee:Number(invoiceSettings.fixedFee||0)}); }
+    else { const f=bracketFee(type, day.parcels); fee+=f.fee; details.push({date:day.date,parcels:day.parcels,vehicle:type,vehicleName:day.vehicleName||'',plate:day.vehiclePlate||day.plate||'',bracket:f.label,fee:f.fee}); }
+  }); const deduction=Number(d.deduction||0), advance=Number(d.advance||0); return {commission,commissionPercent,fee,deduction,advance,net:commissionBase-commission-fee-deduction-advance,workedDays:(d.days||[]).filter(x=>Number(x.parcels)>0||Number(x.total)>0).length, feeDetails:details, missingVehicle}; }
+async function renderBrokerFactures(broker){
+  const snap=await bcol('weeks', profile.brokerId).get().catch(()=>({docs:[]}));
+  const totalIntelcom=invoiceDrivers.reduce((a,d)=>a+Number(d.totalInvoice||0),0); const totalCalc=invoiceDrivers.reduce((a,d)=>a+calcInvoice(d).net,0);
+  $('content').innerHTML = `<div class="grid">
+    ${card(`<h2>📄 Créer factures Intelcom</h2><div class="notice bluebox">Importe les PDF Intelcom ici. L’app détecte les chauffeurs, les semaines, les colis et génère les relevés PDF comme la v13.1, tout en gardant la v22 SaaS.</div>
+      <label>Importer PDF Intelcom (max 40)</label><input id="invoicePdfFiles" type="file" multiple accept="application/pdf">
+      <div class="row" style="margin-top:10px"><button onclick="importIntelcomPDFs()">Importer et lire</button><button class="green" onclick="downloadAllInvoicesZip()">ZIP de toutes les factures</button><button class="secondary" onclick="saveAllInvoicesToFirebase()">Sauvegarder historique Firebase</button><button class="red" onclick="clearInvoiceImport()">Vider import</button></div>
+      <div class="summaryBar"><div class="feeBox"><b>Total Intelcom</b><br><span class="big">${fmtMoney(totalIntelcom)}</span></div><div class="feeBox"><b>Factures</b><br><span class="big">${invoiceDrivers.length}</span></div><div class="feeBox"><b>Total chauffeurs</b><br><span class="big">${fmtMoney(totalCalc)}</span></div><div class="feeBox"><b>Historique</b><br><span class="big">${snap.docs.length}</span></div></div>`,'col-12')}
+    ${renderImportSummary()}
+    ${card(`<h2>Options PDF pour cet import</h2><div class="grid"><div class="col-6"><label>Afficher les colis détaillés dans le PDF</label><select onchange="invoiceSettings.includeDetails=this.value;saveInvoiceLocal();render()"><option value="yes" ${invoiceSettings.includeDetails==='yes'?'selected':''}>Oui, ajouter les pages colis</option><option value="no" ${invoiceSettings.includeDetails==='no'?'selected':''}>Non, relevé seulement</option></select></div><div class="col-6"><label>Paramètres utilisés</label><div class="linkbox">Mode frais : <b>${invoiceSettings.feeMode==='daily_fixed'?'Frais fixe par jour travaillé':'Barème par colis'}</b><br>Frais fixe/jour : <b>${fmtMoney(invoiceSettings.fixedFee)}</b><br>Barèmes : à modifier dans <b>Paramètres</b>.<br>Commission : dans chaque fiche <b>Chauffeur</b>.</div></div></div>`,'col-12')}
+    ${card(`<h2>Aperçu avant génération</h2><div class="wide"><table><tr><th>Chauffeur</th><th>Période</th><th>Semaine</th><th>Colis</th><th>Total Intelcom</th><th>% Broker</th><th>Commission</th><th>Frais</th><th>Déduction</th><th>Avance</th><th>Net</th><th>Statut chauffeur</th><th>Actions</th></tr>${invoiceDrivers.map((d,i)=>invoiceRow(d,i)).join('')||'<tr><td colspan="13">Aucun PDF importé</td></tr>'}</table></div>`,'col-12')}
+  </div>`;
+}
+function renderBracketsHtml(){ return VEHICLES.map(v=>`<div class="feeBox"><h3>${VEHICLE_LABEL[v]}</h3>${(invoiceSettings.brackets[v]||[]).map((r,i)=>`<div class="bracketRow"><input type="number" value="${r.min}" onchange="invoiceSettings.brackets.${v}[${i}].min=Number(this.value);saveInvoiceLocal()"><input type="number" value="${r.max}" onchange="invoiceSettings.brackets.${v}[${i}].max=Number(this.value);saveInvoiceLocal()"><input type="number" value="${r.fee}" onchange="invoiceSettings.brackets.${v}[${i}].fee=Number(this.value);saveInvoiceLocal()"><button class="red mini" onclick="invoiceSettings.brackets.${v}.splice(${i},1);saveInvoiceLocal();render()">X</button></div>`).join('')}<button class="mini secondary" onclick="invoiceSettings.brackets.${v}.push({min:0,max:9999,fee:0});saveInvoiceLocal();render()">+ tranche</button></div>`).join(''); }
+window.toggleBrackets=()=>{invoiceSettings.showBrackets=!invoiceSettings.showBrackets;saveInvoiceLocal();render();};
+function invoiceRow(d,i){ const c=calcInvoice(d); return `<tr><td><b>${safe(d.name)}</b><br><span class="muted">${safe(d.code)}</span></td><td>${weekLabel(d.week,d.from,d.to)}</td><td>${safe(d.week)}</td><td>${safe(d.parcels)}</td><td>${fmtMoney(d.totalInvoice)}</td><td>${Number(c.commissionPercent||0).toFixed(2)}%</td><td>${fmtMoney(c.commission)}</td><td>${fmtMoney(c.fee)}</td><td><input style="width:90px" type="number" value="${d.deduction||0}" onchange="invoiceDrivers[${i}].deduction=Number(this.value);saveInvoiceLocal();render()"></td><td><input style="width:90px" type="number" value="${d.advance||0}" onchange="invoiceDrivers[${i}].advance=Number(this.value);saveInvoiceLocal();render()"></td><td><b>${fmtMoney(c.net)}</b></td><td>${d.missingDriver||d.driverStatus==='pending'?'<span class="dangerText">À compléter</span>':(calcInvoice(d).missingVehicle?'<span class="dangerText">Véhicule manquant</span>':(d.dispatchApplied?'<span class="successText">Dispatch appliqué</span>':'<span class="successText">OK</span>'))}</td><td><button class="mini" onclick="downloadInvoice(${i})">PDF</button><button class="mini secondary" onclick="editInvoiceDays(${i})">Véhicules</button><button class="mini red" onclick="invoiceDrivers.splice(${i},1);saveInvoiceLocal();render()">X</button></td></tr>`; }
+window.editInvoiceDays=(idx)=>{ const d=invoiceDrivers[idx]; const html=(d.days||[]).map((day,j)=>`${day.date} (${day.parcels} colis): ${VEHICLES.map(v=>`<option value="${v}" ${day.vehicle===v?'selected':''}>${VEHICLE_LABEL[v]}</option>`).join('')}`).join('\n'); const msg='Modifier les véhicules directement dans le tableau qui va apparaître en dessous de la facture.'; showMsg(msg,'notice'); const rows=(d.days||[]).map((day,j)=>`<tr><td>${day.date}</td><td>${day.parcels}</td><td><select onchange="invoiceDrivers[${idx}].days[${j}].vehicle=this.value;saveInvoiceLocal();render()">${VEHICLES.map(v=>`<option value="${v}" ${day.vehicle===v?'selected':''}>${VEICLE_LABEL_FIX(v)}</option>`).join('')}</select></td></tr>`).join(''); $('content').innerHTML += card(`<h2>Véhicules par jour — ${safe(d.name)}</h2><table><tr><th>Date</th><th>Colis</th><th>Véhicule</th></tr>${rows}</table>`); };
+function VEICLE_LABEL_FIX(v){return VEHICLE_LABEL[v]||v;}
+window.clearInvoiceImport=()=>{ if(confirm('Vider les factures importées ?')){invoiceDrivers=[];saveInvoiceLocal();render();} };
+async function pdfToText(file){ const buf=await file.arrayBuffer(); const pdf=await pdfjsLib.getDocument({data:buf}).promise; let text=''; for(let p=1;p<=pdf.numPages;p++){ const page=await pdf.getPage(p); const content=await page.getTextContent(); const items=content.items.filter(i=>String(i.str||'').trim()).map(i=>({str:String(i.str).trim(),x:i.transform[4],y:Math.round(i.transform[5])})); const lines={}; for(const it of items){ let key=Object.keys(lines).find(k=>Math.abs(Number(k)-it.y)<=2) || String(it.y); (lines[key]=lines[key]||[]).push(it); } Object.keys(lines).sort((a,b)=>Number(b)-Number(a)).forEach(k=>{ text += lines[k].sort((a,b)=>a.x-b.x).map(i=>i.str).join(' ')+'\n'; }); text+='\n'; } return text; }
+function parseIntelcomText(text,fileName){ const lines=text.split(/\n+/).map(l=>l.trim()).filter(Boolean); const fileWeek=(fileName||'').match(/(20\d{2}-\d{1,2})/); let code='', name=''; for(const l of lines){ const m=l.match(/\b(C0[A-Z0-9]{4,})\s+([A-Za-zÀ-ÿ'’\- ]{2,})(?:\s+Invoice To)?/); if(m){code=m[1]; name=m[2].replace(/Invoice To.*/,'').trim(); break;} } if(!code){ const m=(fileName||text).match(/\b(C0[A-Z0-9]{4,})\b/); code=m?m[1]:''; } if(!name) name=code || (fileName||'Chauffeur').replace(/\.pdf$/i,''); let week=fileWeek?fileWeek[1]:''; const weekLine = lines.find(l=>/^20\d{2}-\d{1,2}$/.test(l)); if(!week && weekLine) week=weekLine; const dates=[...text.matchAll(/\b(20\d{2}-\d{2}-\d{2})\b/g)].map(m=>m[1]); const from=dates[0]||'', to=dates.find(d=>d!==from&&d>=from)||dates[1]||''; const days=[]; const summaryStart=lines.findIndex(l=>l.includes('Transaction Date')||l.includes('Transaction summary')); const totalLine=lines.find(l=>/Total invoice\s*\$?/.test(l)); const totalInvoice=totalLine?parseAmount(totalLine.replace(/^.*Total invoice/i,'')):0; for(const l of lines){ const m=l.match(/^(20\d{2}-\d{2}-\d{2})\s+\d+\s+(\d+)\s+\$?([\d,]+\.\d{2})\s+\$?([\d,]+\.\d{2})\s+\$?([\d,]+\.\d{2})\s+\$?([\d,]+\.\d{1,2})/); if(m){ days.push({date:m[1],parcels:Number(m[2]),amount:parseAmount(m[3]),fsc:parseAmount(m[4]),additional:parseAmount(m[5]),total:parseAmount(m[6]),vehicle:'essence'}); } }
+ if(!days.length){ const byDate={}; for(const l of lines){ const m=l.match(/^(20\d{2}-\d{2}-\d{2})\s+(DELIVERY|FLEX|RETNXTDAY).*?\s+(\d+(?:\.\d+)?)\s+LB\s+\$?([\d.]+)/); if(m){ byDate[m[1]]=byDate[m[1]]||{date:m[1],parcels:0,total:0,vehicle:'essence'}; byDate[m[1]].parcels++; byDate[m[1]].total+=parseAmount(m[4]); } } Object.values(byDate).sort((a,b)=>a.date.localeCompare(b.date)).forEach(x=>days.push(x)); }
+ const parcels=days.reduce((a,d)=>a+Number(d.parcels||0),0); const total=totalInvoice || days.reduce((a,d)=>a+Number(d.total||0),0); return {id:code+'_'+week, code, name, week, from:from||days[0]?.date||'', to:to||days[days.length-1]?.date||'', days, parcels, totalInvoice:total, deduction:0, advance:0, rawText:text, fileName}; }
+window.importIntelcomPDFs=async()=>{ try{ const files=Array.from($('invoicePdfFiles')?.files||[]); if(!files.length) return showMsg('Choisis au moins un PDF','err'); if(files.length>40) return showMsg('Maximum 40 PDF','err'); let ok=0, created=0, updatedLocal=0; for(const f of files){ if(!/pdf$/i.test(f.name)) continue; const text=await pdfToText(f); const inv=parseIntelcomText(text,f.name); const res=await ensureDriverForInvoice(inv); inv.driverId=res.driverId; inv.driverStatus=res.status; inv.missingDriver=res.created; if(res.commissionPercent!==undefined && res.commissionPercent!=='') inv.commissionPercent=Number(res.commissionPercent); await applyDispatchToInvoice(inv); if(res.created) created++; { const k=(inv.code||'driver')+'_'+(inv.week||'week'); const idx=invoiceDrivers.findIndex(x=>(x.code||'driver')+'_'+(x.week||'week')===k); if(idx>=0){ invoiceDrivers[idx]=inv; updatedLocal++; } else invoiceDrivers.push(inv); } ok++; } saveInvoiceLocal(); saveImportSummary({saved:updatedLocal,createdDrivers:created,pdfs:ok,duplicates:0,pendingDrivers:created,at:new Date().toISOString()}); showMsg(ok+' PDF importé(s). '+created+' chauffeur(s) inconnu(s) créé(s) en attente.','ok'); render(); }catch(e){ showMsg('Erreur import PDF : '+humanError(e),'err'); console.error('importIntelcomPDFs error', e); } };
+function getPdfCompany(){
+  // v23.8 : priorité aux paramètres du broker, puis override quand un chauffeur télécharge un ancien relevé.
+  const b = window.pdfCompanyOverride || (typeof window.currentBroker !== 'undefined' ? window.currentBroker : null) || profile || {};
+  const configured = !!(b.companyName || b.address || b.ownerName || b.phone || b.email || b.paymentMethod);
+  return {
+    companyName: b.companyName || (configured ? '' : 'Entreprise non configurée'),
+    address: b.address || '',
+    ownerName: b.ownerName || '',
+    email: b.email || '',
+    phone: b.phone || '',
+    paymentMethod: b.paymentMethod || ''
+  };
+}
+function drawInvoiceDoc(d){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'pt',format:'letter'});
+  const c=calcInvoice(d);
+  const company=getPdfCompany();
+  const left=42, right=570, pageW=612, pageH=792;
+  let y=30;
+  const money=v=>fmtMoney(Number(v||0));
+  const line=yy=>{doc.setDrawColor(20);doc.setLineWidth(.8);doc.line(left,yy,right,yy)};
+  const textRight=(t,x,yy)=>doc.text(String(t??''),x,yy,{align:'right'});
+  const addTextLines=(txt,x,yy,maxW,lineH=16)=>{ const arr=doc.splitTextToSize(String(txt||''),maxW); arr.forEach(l=>{doc.text(l,x,yy); yy+=lineH;}); return yy; };
+  const modeLabel=invoiceSettings.feeMode==='daily_fixed'?'Frais fixe par jour travaillé':'Barème par colis';
+
+  // Page 1 — modèle proche de la référence fournie par le client.
+  doc.setFont('helvetica','bold'); doc.setFontSize(18);
+  doc.text(`${d.name||'Chauffeur'} - ${weekPlainLabel(d.week,d.from,d.to)}`, pageW/2, y, {align:'center'});
+  y+=50;
+  doc.setFont('helvetica','normal'); doc.setFontSize(10);
+  doc.text(`Fait le ${new Date().toISOString().slice(0,10)}`, left, y); y+=30;
+  doc.text(`Période de paie : ${weekPlainLabel(d.week,d.from,d.to)}`, left, y); y+=44;
+  line(y); y+=38;
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(11);
+  doc.text(company.companyName||'', left, y);
+  doc.text('À L’ATTENTION DE', 390, y);
+  y+=20;
+  doc.setFont('helvetica','normal'); doc.setFontSize(10);
+  const startBlockY=y;
+  let yLeft=addTextLines(company.address||'', left, y, 260, 17);
+  let yRight=startBlockY;
+  doc.text(d.name||'',390,yRight); yRight+=20;
+  doc.text('Code : '+(d.code||''),390,yRight); yRight+=20;
+  y=Math.max(yLeft,yRight)+58;
+
+  // Tableau résumé jours
+  doc.setFillColor(17,17,17); doc.rect(left,y,right-left,24,'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(10);
+  doc.text('DATES', left+28, y+16); doc.text('COLIS', left+205, y+16); doc.text('MONTANT', left+365, y+16);
+  doc.setTextColor(0,0,0); doc.setFont('helvetica','normal'); y+=40;
+  (d.days||[]).forEach(day=>{
+    doc.text(String(day.date||''), left+28, y);
+    doc.text(String(day.parcels||0), left+215, y);
+    doc.text(money(day.total||0), left+365, y);
+    y+=17;
+  });
+
+  y+=12; line(y); y+=22;
+  const labX=300, valX=520;
+  const rows=[
+    ['Sous total Intelcom', money(d.totalInvoice)],
+    [`Commission broker (${Number(c.commissionPercent||0).toFixed(2)}%)`, money(c.commission)],
+    ['Jours travaillés', String(c.workedDays)],
+    ['Mode frais', modeLabel],
+    ['Frais broker', money(c.fee)],
+    ['Déduction', cleanMoney(c.deduction)],
+    ['Avance', cleanMoney(c.advance)]
+  ];
+  doc.setFontSize(10); doc.setFont('helvetica','normal');
+  rows.forEach(row=>{doc.text(row[0]+' :',labX,y); textRight(row[1],valX,y); y+=16});
+  y+=10;
+  doc.setFillColor(17,17,17); doc.rect(labX-25,y,right-(labX-25),32,'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(12);
+  doc.text('TOTAL : '+money(c.net),(labX-25+right)/2,y+21,{align:'center'});
+  doc.setTextColor(0,0,0); y+=50;
+
+  // Pied de page, doit rester sur la première page.
+  doc.setFont('helvetica','normal'); doc.setFontSize(9);
+  if(y>690) y=690;
+  doc.text('Paiement à l’ordre de : '+(company.ownerName||company.companyName||''),left,y); y+=17;
+  doc.text('Règlement : '+(company.paymentMethod||'Par virement bancaire'),left,y); y+=17;
+  if(company.email){doc.text('Email : '+company.email,left,y); y+=17;}
+  if(company.phone){doc.text('Téléphone : '+company.phone,left,y); y+=17;}
+  y+=10; line(y); y+=31;
+  doc.setFont('helvetica','bold'); doc.setFontSize(10);
+  doc.text('MERCI DE VOTRE CONFIANCE', pageW/2, y, {align:'center'});
+
+  // Page détails frais broker
+  if(c.feeDetails && c.feeDetails.length){
+    doc.addPage(); y=38;
+    doc.setFont('helvetica','bold'); doc.setFontSize(18); doc.text('Détails des frais broker',left,y); y+=34;
+    doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.text('Mode : '+modeLabel,left,y); y+=24;
+    doc.text('Véhicule choisi par journée',left,y); y+=44;
+    doc.setFillColor(17,17,17); doc.rect(left,y,right-left,24,'F');
+    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold');
+    doc.text('Date',left+18,y+16); doc.text('Colis',left+125,y+16); doc.text('Véhicule',left+210,y+16); doc.text('Tranche',left+330,y+16); doc.text('Frais',left+480,y+16);
+    doc.setTextColor(0,0,0); doc.setFont('helvetica','normal'); y+=42;
+    c.feeDetails.forEach(r=>{ if(y>720){doc.addPage(); y=48;} doc.text(String(r.date||''),left+18,y); doc.text(String(r.parcels||0),left+125,y); doc.text(VEHICLE_LABEL[r.vehicle]||r.vehicle||'',left+210,y); doc.text(String(r.bracket||''),left+330,y); doc.text(money(r.fee),left+480,y); y+=26; });
+    y+=24; doc.setFont('helvetica','bold'); doc.text('Frais broker total : '+money(c.fee),left+330,y);
+  }
+
+  // Option : afficher ou cacher les pages détaillées des colis Intelcom.
+  // v23.8.2 : les détails sont maintenant dessinés en colonnes fixes.
+  // Avant, la ligne brute du PDF Intelcom était imprimée d'un bloc, ce qui collait toutes les infos.
+  if(invoiceSettings.includeDetails==='yes'){
+    const parseParcelLine=(line)=>{
+      const clean=String(line||'').replace(/\s+/g,' ').trim();
+      const m=clean.match(/^(20\d{2}-\d{2}-\d{2})\s+(DELIVERY|FLEX|RETNXTDAY|RETURN|PICKUP)\s+(?:(MONT|[A-Z]{2,5})\s+)?([A-Z]\d[A-Z]\d[A-Z]\d)\s+(ZONE_[A-Z])\s+(.+?)\s+(\d+(?:\.\d+)?)\s+LB\s+\$?([\d,]+(?:\.\d{1,2})?)/i);
+      if(!m) return null;
+      return {
+        date:m[1], service:m[2], station:m[3]||'', postal:m[4], zone:m[5],
+        tracking:m[6].trim(), weight:m[7]+' LB', amount:'$'+m[8].replace(/,/g,'')
+      };
+    };
+    const fitText=(txt,maxChars)=>{
+      txt=String(txt||'');
+      return txt.length>maxChars ? txt.slice(0,Math.max(0,maxChars-1))+'…' : txt;
+    };
+    const detailLines=(d.rawText||'').split('\n').map(l=>l.trim()).filter(l=>/^20\d{2}-\d{2}-\d{2}\s+(DELIVERY|FLEX|RETNXTDAY|RETURN|PICKUP)/i.test(l));
+    const perPage=42;
+    let page=1, totalPages=Math.max(1,Math.ceil(detailLines.length/perPage));
+    for(let i=0;i<detailLines.length;i+=perPage){
+      doc.addPage(); y=34;
+      doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text('Détails des colis Intelcom',left,y); y+=17;
+      doc.setFont('helvetica','normal'); doc.setFontSize(8.5);
+      doc.text(`${d.name||''} ${d.code||''}`,left,y);
+      doc.text(`Page détails ${page} / ${totalPages}`,right,y,{align:'right'}); y+=15;
+      doc.text(`Période : ${d.from||''} au ${d.to||''}`,left,y); y+=28;
+
+      const cols={date:left+4, service:left+68, station:left+118, postal:left+158, zone:left+215, tracking:left+270, weight:left+455, amount:left+510};
+      doc.setFillColor(17,17,17); doc.rect(left,y,right-left,20,'F');
+      doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(6.8);
+      doc.text('Date',cols.date,y+13);
+      doc.text('Service',cols.service,y+13);
+      doc.text('Station',cols.station,y+13);
+      doc.text('Code',cols.postal,y+13);
+      doc.text('Zone',cols.zone,y+13);
+      doc.text('Tracking',cols.tracking,y+13);
+      doc.text('Poids',cols.weight,y+13);
+      doc.text('Montant',cols.amount,y+13);
+      doc.setTextColor(0,0,0); doc.setFont('helvetica','normal'); doc.setFontSize(6.6); y+=32;
+
+      detailLines.slice(i,i+perPage).forEach((line,idx)=>{
+        const r=parseParcelLine(line);
+        if(idx%2===1){ doc.setFillColor(246,246,246); doc.rect(left,y-9,right-left,14,'F'); }
+        if(r){
+          doc.text(r.date,cols.date,y);
+          doc.text(fitText(r.service,8),cols.service,y);
+          doc.text(fitText(r.station,6),cols.station,y);
+          doc.text(r.postal,cols.postal,y);
+          doc.text(r.zone.replace('ZONE_','Z_'),cols.zone,y);
+          doc.text(fitText(r.tracking,30),cols.tracking,y);
+          doc.text(r.weight,cols.weight,y);
+          doc.text(r.amount,cols.amount,y);
+        }else{
+          // Secours pour les lignes Intelcom qui ne suivent pas exactement le format attendu.
+          doc.text(fitText(line,115),cols.date,y);
+        }
+        y+=13;
+      });
+      page++;
+    }
+  }
+  return doc;
+}
+
+window.downloadInvoice=(idx)=>{ const d=invoiceDrivers[idx]; const doc=drawInvoiceDoc(d); doc.save(`${d.name||'Chauffeur'} - ${d.week||''} - ${d.from||''}_${d.to||''}.pdf`); };
+window.downloadAllInvoicesZip=async()=>{ if(!invoiceDrivers.length) return showMsg('Aucune facture à zipper','err'); const zip=new JSZip(); invoiceDrivers.forEach(d=>{ const doc=drawInvoiceDoc(d); zip.file(`${d.name||'Chauffeur'} - ${d.week||''} - ${d.from||''}_${d.to||''}.pdf`, doc.output('blob')); }); const blob=await zip.generateAsync({type:'blob'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='factures_intelcom.zip'; a.click(); };
+window.saveAllInvoicesToFirebase=async()=>{
+  try{
+    if(!invoiceDrivers.length) return showMsg('Aucune facture à sauvegarder','err');
+    const batch=db.batch();
+    let saved=0, duplicates=0;
+    for(const d of invoiceDrivers){
+      const c=calcInvoice(d);
+      const weekId=`${profile.brokerId}_${d.code||'driver'}_${d.week||'week'}`.replace(/[^a-zA-Z0-9_\-]/g,'_');
+      const ref=bcol('weeks', profile.brokerId).doc(weekId);
+      const waiting = d.missingDriver || d.driverStatus==='pending';
+      let driverUid='', driverEmail='';
+      if(d.driverId){
+        const drv=await bcol('drivers', profile.brokerId).doc(d.driverId).get().catch(()=>null);
+        if(drv && drv.exists){ driverUid=drv.data().uid||''; driverEmail=drv.data().email||''; }
+      }
+      const weekPayload={
+        brokerId:profile.brokerId,
+        driverId:d.driverId||'',
+        driverDocId:d.driverId||'',
+        driverUid:driverUid||'',
+        driverEmail:driverEmail||'',
+        driverCode:d.code,
+        driverName:d.name,
+        week:d.week,from:d.from,to:d.to,parcels:d.parcels,totalIntelcom:d.totalInvoice,
+        commissionPercent:c.commissionPercent,commission:c.commission,brokerFees:c.fee,deduction:c.deduction,advance:c.advance,total:c.net,
+        status: waiting?'waiting_driver_info':'généré',profileCompleted: !waiting,
+        updatedAt:now(),
+        createdAt:d.createdAt||now(),createdBy:currentUser.uid,days:d.days,rawText:d.rawText||''
+      };
+      const existing=await ref.get().catch(()=>null);
+      if(existing && existing.exists){
+        const old=existing.data()||{};
+        const duplicateId=`dup_${weekId}_${Date.now()}_${Math.floor(Math.random()*9999)}`.replace(/[^a-zA-Z0-9_\-]/g,'_');
+        const duplicateDoc={
+          brokerId:profile.brokerId,
+          status:'pending',
+          existingWeekId:weekId,
+          driverCode:d.code||'',
+          driverName:d.name||'',
+          week:d.week||'',
+          oldSummary:{
+            totalIntelcom:Number(old.totalIntelcom||0),parcels:Number(old.parcels||0),commissionPercent:Number(old.commissionPercent||0),commission:Number(old.commission||0),brokerFees:Number(old.brokerFees||0),total:Number(old.total||0),updatedAt:old.updatedAt||old.createdAt||''
+          },
+          newSummary:{
+            totalIntelcom:Number(weekPayload.totalIntelcom||0),parcels:Number(weekPayload.parcels||0),commissionPercent:Number(weekPayload.commissionPercent||0),commission:Number(weekPayload.commission||0),brokerFees:Number(weekPayload.brokerFees||0),total:Number(weekPayload.total||0),updatedAt:weekPayload.updatedAt||''
+          },
+          newWeekPayload,
+          createdAt:now(),
+          createdBy:currentUser.uid
+        };
+        batch.set(bcol('duplicateInvoices', profile.brokerId).doc(duplicateId), duplicateDoc, {merge:true});
+        batch.set(bcol('notifications', profile.brokerId).doc(`notif_${duplicateId}`), {
+          brokerId:profile.brokerId,
+          type:'duplicate_invoice',
+          status:'pending',
+          read:false,
+          duplicateId,
+          existingWeekId:weekId,
+          driverCode:d.code||'',
+          driverName:d.name||'',
+          week:d.week||'',
+          message:`Doublon détecté : ${d.name||d.code||'chauffeur'} — semaine ${d.week||''}. Compare l’ancien relevé avec le nouveau PDF.`,
+          createdAt:now(),createdBy:currentUser.uid
+        }, {merge:true});
+        duplicates++;
+      }else{
+        batch.set(ref,weekPayload,{merge:true});
+        saved++;
+      }
+    }
+    await batch.commit();
+    const msg = duplicates ? `${saved} relevé(s) sauvegardé(s). ${duplicates} doublon(s) mis en attente de comparaison.` : `${saved} relevé(s) sauvegardé(s)/mis à jour.`;
+    saveImportSummary({saved,createdDrivers:invoiceDrivers.filter(x=>x.missingDriver||x.driverStatus==='pending').length,pdfs:invoiceDrivers.length,duplicates,pendingDrivers:invoiceDrivers.filter(x=>x.missingDriver||x.driverStatus==='pending').length,at:new Date().toISOString()});
+    showMsg(msg,'ok'); render();
+  }catch(e){showMsg(humanError(e),'err')}
+};
+
+
+async function ensureDriverForInvoice(inv){
+  const brokerId=profile?.brokerId;
+  const code=String(inv.code||'').trim();
+  const name=String(inv.name||'Chauffeur inconnu').trim();
+  if(!brokerId) return {driverId:'', status:'unknown', created:false};
+  let existing=null;
+  if(code){
+    const snap=await bcol('drivers', brokerId).where('code','==',code).limit(1).get();
+    if(!snap.empty) existing=snap.docs[0];
+  }
+  if(existing){
+    const x=existing.data();
+    return {driverId:existing.id, status:x.status||'active', created:false, commissionPercent:(x.commissionPercent!==undefined?x.commissionPercent:'')};
+  }
+  const safeCode=(code||name||('driver_'+Date.now())).replace(/[^a-zA-Z0-9_-]/g,'_');
+  const driverId=`pending_${brokerId}_${safeCode}`.replace(/[^a-zA-Z0-9_-]/g,'_');
+  const driverData={brokerId,name,code,email:'',phone:'',address:'',paymentType:'',notes:'',active:true,status:'pending',profileCompleted:false,missingInfo:true,createdFrom:'intelcom_pdf',firstWeek:inv.week||'',createdAt:now(),createdBy:currentUser.uid,commissionPercent:0};
+  await bcol('drivers', brokerId).doc(driverId).set(driverData,{merge:true});
+  const notifId=`missing_${brokerId}_${safeCode}_${inv.week||'week'}`.replace(/[^a-zA-Z0-9_-]/g,'_');
+  await bcol('notifications', brokerId).doc(notifId).set({brokerId,type:'missing_driver',driverId,driverName:name,driverCode:code,week:inv.week||'',read:false,message:`Chauffeur à compléter : ${name} (${code||'sans code'}) — semaine ${inv.week||''}`,createdAt:now(),createdBy:currentUser.uid},{merge:true}).catch(e=>console.warn('Notification chauffeur manquant non créée', e));
+  return {driverId,status:'pending',created:true,commissionPercent:0};
+}
+
+window.completePendingDriver=async(driverId)=>{
+  try{
+    const doc=await bcol('drivers', profile.brokerId).doc(driverId).get();
+    if(!doc.exists) return showMsg('Chauffeur introuvable','err');
+    const d=doc.data();
+    const email=normEmail(prompt('Email du chauffeur', d.email||''));
+    if(!email) return showMsg('Email obligatoire pour compléter le profil','err');
+    const phone=prompt('Téléphone du chauffeur', d.phone||'')||'';
+    const address=prompt('Adresse du chauffeur', d.address||'')||'';
+    const paymentType=prompt('Mode de paiement', d.paymentType||'Virement bancaire')||'';
+    const commissionPercent=Number(prompt('Commission broker personnalisée (%)', (d.commissionPercent!==undefined?d.commissionPercent:0))||0);
+    const temp=tempPass();
+    await bcol('drivers', profile.brokerId).doc(driverId).set({email,emailLower:email,phone,address,paymentType,commissionPercent,status:'active',profileCompleted:true,missingInfo:false,active:true,completedAt:now(),completedBy:currentUser.uid,tempPassword:temp},{merge:true});
+    // Relier les factures existantes à l'email du chauffeur. Le UID sera ajouté automatiquement quand il accepte l'invitation.
+    const oldWeeks = await bcol('weeks', d.brokerId || profile.brokerId).where('driverId','==',driverId).get().catch(()=>({docs:[]}));
+    for(const w of oldWeeks.docs){ await w.ref.set({driverEmail:email, status:(w.data().status==='waiting_driver_info'?'généré':(w.data().status||'généré')), profileCompleted:true, linkedEmailAt:now()}, {merge:true}); }
+    const inv={email,emailLower:email,name:d.name,role:'driver',brokerId:d.brokerId,driverId,tempPassword:temp,used:false,createdAt:now(),createdBy:currentUser.uid};
+    await db.collection('invitations').doc(emailDocId(email)).set(inv,{merge:true});
+    await bcol('notifications', d.brokerId || profile.brokerId).doc(`completed_${driverId}`).set({brokerId:d.brokerId,type:'driver_completed',driverId,driverName:d.name,read:false,message:`Profil chauffeur complété : ${d.name}`,createdAt:now()},{merge:true});
+    showMsg('Profil chauffeur complété + invitation créée. Utilise le bouton Gmail pour envoyer le lien.','ok');
+    render();
+  }catch(e){ showMsg(humanError(e),'err'); }
+};
+
+window.markNotificationRead=async(id)=>{ try{ await bcol('notifications', profile.brokerId).doc(id).set({read:true,readAt:now()},{merge:true}); render(); }catch(e){ showMsg(humanError(e),'err'); } };
+
+window.openDuplicateCompare=async(notifId, duplicateId)=>{
+  try{
+    if(!duplicateId) return showMsg('Doublon introuvable','err');
+    const doc=await bcol('duplicateInvoices', profile.brokerId).doc(duplicateId).get();
+    if(!doc.exists) return showMsg('Comparaison introuvable','err');
+    const x=doc.data();
+    const old=x.oldSummary||{}, neu=x.newSummary||{};
+    const row=(label,a,b)=>`<tr><td>${label}</td><td>${fmtMoney(a)}</td><td>${fmtMoney(b)}</td></tr>`;
+    $('content').innerHTML = card(`<h2>⚠️ Comparaison de doublon</h2><div class="notice warn">Un relevé existe déjà pour <b>${safe(x.driverName||x.driverCode)}</b>, semaine <b>${safe(x.week)}</b>. Choisis le bon fichier.</div>
+      <table><tr><th>Élément</th><th>Relevé existant</th><th>Nouveau PDF importé</th></tr>
+        ${row('Total Intelcom', old.totalIntelcom, neu.totalIntelcom)}
+        <tr><td>Colis</td><td>${safe(old.parcels||0)}</td><td>${safe(neu.parcels||0)}</td></tr>
+        <tr><td>Commission %</td><td>${Number(old.commissionPercent||0).toFixed(2)}%</td><td>${Number(neu.commissionPercent||0).toFixed(2)}%</td></tr>
+        ${row('Commission broker', old.commission, neu.commission)}
+        ${row('Frais broker', old.brokerFees, neu.brokerFees)}
+        ${row('Net chauffeur', old.total, neu.total)}
+        <tr><td>Dernière mise à jour</td><td>${safe(old.updatedAt||'')}</td><td>${safe(neu.updatedAt||'')}</td></tr>
+      </table>
+      <div class="row" style="margin-top:16px">
+        <button class="secondary" onclick="keepExistingDuplicate('${duplicateId}','${notifId}')">Garder l’ancien</button>
+        <button class="green" onclick="acceptNewDuplicate('${duplicateId}','${notifId}')">Remplacer par le nouveau</button>
+        <button class="orange" onclick="createSeparateDuplicate('${duplicateId}','${notifId}')">Créer comme version séparée</button>
+        <button class="secondary" onclick="render()">Retour</button>
+      </div>`);
+  }catch(e){showMsg(humanError(e),'err')}
+};
+window.keepExistingDuplicate=async(duplicateId, notifId)=>{
+  try{
+    await bcol('duplicateInvoices', profile.brokerId).doc(duplicateId).set({status:'kept_existing',resolvedAt:now(),resolvedBy:currentUser.uid},{merge:true});
+    if(notifId) await bcol('notifications', profile.brokerId).doc(notifId).set({read:true,status:'resolved',resolution:'kept_existing',readAt:now()},{merge:true});
+    showMsg('Ancien relevé conservé.','ok'); render();
+  }catch(e){showMsg(humanError(e),'err')}
+};
+window.acceptNewDuplicate=async(duplicateId, notifId)=>{
+  try{
+    const doc=await bcol('duplicateInvoices', profile.brokerId).doc(duplicateId).get();
+    if(!doc.exists) return showMsg('Doublon introuvable','err');
+    const x=doc.data();
+    await bcol('weeks', profile.brokerId).doc(x.existingWeekId).set({...x.newWeekPayload, duplicateResolvedAt:now(), duplicateResolution:'replaced_by_new'}, {merge:true});
+    await bcol('duplicateInvoices', profile.brokerId).doc(duplicateId).set({status:'accepted_new',resolvedAt:now(),resolvedBy:currentUser.uid},{merge:true});
+    if(notifId) await bcol('notifications', profile.brokerId).doc(notifId).set({read:true,status:'resolved',resolution:'accepted_new',readAt:now()},{merge:true});
+    showMsg('Nouveau PDF accepté et relevé remplacé.','ok'); render();
+  }catch(e){showMsg(humanError(e),'err')}
+};
+window.createSeparateDuplicate=async(duplicateId, notifId)=>{
+  try{
+    const doc=await bcol('duplicateInvoices', profile.brokerId).doc(duplicateId).get();
+    if(!doc.exists) return showMsg('Doublon introuvable','err');
+    const x=doc.data();
+    const newId=`${x.existingWeekId}_version_${Date.now()}`.replace(/[^a-zA-Z0-9_\-]/g,'_');
+    await bcol('weeks', profile.brokerId).doc(newId).set({...x.newWeekPayload, status:'version_séparée', originalWeekId:x.existingWeekId, createdAsSeparateAt:now()}, {merge:true});
+    await bcol('duplicateInvoices', profile.brokerId).doc(duplicateId).set({status:'created_separate',separateWeekId:newId,resolvedAt:now(),resolvedBy:currentUser.uid},{merge:true});
+    if(notifId) await bcol('notifications', profile.brokerId).doc(notifId).set({read:true,status:'resolved',resolution:'created_separate',readAt:now()},{merge:true});
+    showMsg('Nouveau PDF créé comme version séparée.','ok'); render();
+  }catch(e){showMsg(humanError(e),'err')}
+};
+
+
+
+function invoiceFromWeekData(w){
+  const days = Array.isArray(w.days) ? w.days : [];
+  return {
+    name: w.driverName || w.name || 'Chauffeur',
+    code: w.driverCode || w.code || '',
+    week: w.week || '',
+    from: w.from || '',
+    to: w.to || '',
+    days: days.map(x=>({date:x.date||'', parcels:Number(x.parcels||0), total:Number(x.total||x.amount||0), vehicle:x.vehicle||'essence'})),
+    parcels: Number(w.parcels || days.reduce((a,x)=>a+Number(x.parcels||0),0)),
+    totalInvoice: Number(w.totalIntelcom || w.subtotal || w.totalInvoice || 0),
+    commissionPercent: (w.commissionPercent!==undefined ? Number(w.commissionPercent) : 0),
+    deduction: Number(w.deduction || 0),
+    advance: Number(w.advance || 0),
+    rawText: w.rawText || '',
+    driverId: w.driverId || w.driverDocId || '',
+    driverUid: w.driverUid || '',
+    brokerId: w.brokerId || ''
+  };
+}
+async function loadBrokerForPdf(brokerId){
+  if(!brokerId) return null;
+  try{
+    const snap = await db.collection('brokers').doc(brokerId).get();
+    const rootData = snap.exists ? snap.data() : {};
+    const companySnap = await bcol('settings', brokerId).doc('company').get().catch(()=>null);
+    const companyData = companySnap?.exists ? companySnap.data() : {};
+    return {...rootData, ...companyData, brokerId};
+  }catch(e){
+    console.warn('Broker PDF non chargé', e);
+    return null;
+  }
+}
+
+window.downloadDriverWeek = async(weekId)=>{
+  try{
+    const docSnap = weekId.includes('/') ? await getDocByPath(weekId) : await db.collectionGroup('weeks').where(firebase.firestore.FieldPath.documentId(),'==',weekId).limit(1).get().then(s=>s.docs[0]||{exists:false});
+    if(!docSnap.exists) return showMsg('Relevé introuvable','err');
+    const w = docSnap.data();
+    const inv = invoiceFromWeekData(w);
+    if(!inv.days.length){
+      return showMsg('Ce relevé ne contient pas les journées nécessaires pour générer le PDF. Réimporte le PDF Intelcom puis sauvegarde le relevé.','err');
+    }
+    const previousOverride = window.pdfCompanyOverride;
+    const brokerInfo = await loadBrokerForPdf(inv.brokerId || profile?.brokerId);
+    if(brokerInfo) window.pdfCompanyOverride = brokerInfo;
+    const pdf = drawInvoiceDoc(inv);
+    window.pdfCompanyOverride = previousOverride;
+    const name = `${inv.name || 'Chauffeur'} - ${inv.week || ''} - ${inv.from || ''}_${inv.to || ''}.pdf`.replace(/[\/:*?"<>|]/g,'_');
+    pdf.save(name);
+  }catch(e){ showMsg('Erreur téléchargement PDF : '+humanError(e),'err'); }
+};
+
+
+window.confirmDriverVehicle=async(week,date,vehicleId,vehicleName,plate,vehicleType)=>{ try{ const brokerId=profile.brokerId; const driverId=profile.driverId||currentUser.uid; const conflictSnap=await bcol('dailyVehicles',brokerId).where('week','==',week).where('date','==',date).where('vehicleId','==',vehicleId).get().catch(()=>({docs:[]})); const conflict=conflictSnap.docs.find(d=>d.data().driverId!==driverId); const confirmedConflict=!!conflict; if(confirmedConflict && !confirm(`Ce véhicule est déjà déclaré aujourd'hui par ${conflict.data().driverName||'un autre chauffeur'}.
+
+Véhicule: ${vehicleName}
+Immatriculation: ${plate}
+
+Confirme seulement si c'est la bonne immatriculation. Sinon contacte ton broker.`)) return; const driverName=profile.name||currentUser.email; await bcol('dailyVehicles',brokerId).doc(`${week}_${date}_${driverId}`).set({brokerId,week,date,driverId,driverUid:currentUser.uid,driverName,vehicleId,vehicleName,plate,vehicleType,confirmedByDriver:true,confirmedConflict,updatedAt:now()},{merge:true}); if(confirmedConflict){ await bcol('notifications',brokerId).add({type:'vehicle_conflict',title:'Conflit véhicule',message:`${driverName} a confirmé le véhicule ${vehicleName} (${plate}) déjà déclaré par un autre chauffeur le ${date}.`,status:'unread',read:false,brokerId,createdAt:now()}); } showMsg('Véhicule confirmé','ok'); render(); }catch(e){ showMsg(humanError(e),'err'); } };
+window.reportVehicleIssue=async(week,date)=>{ try{ const brokerId=profile.brokerId; await bcol('notifications',brokerId).add({type:'vehicle_issue',title:'Véhicule non conforme',message:`${profile.name||currentUser.email} signale que le véhicule prévu le ${date} n'est pas le bon.`,status:'unread',read:false,brokerId,driverId:profile.driverId||currentUser.uid,createdAt:now()}); showMsg('Signalement envoyé au broker','ok'); }catch(e){ showMsg(humanError(e),'err'); } };
+
+async function renderDriver(){
+  if(currentTab==='dashboard'){
+    // v23.2 : le relevé peut être lié par driverUid, par ancien driverId, ou par email.
+    const queries = await Promise.all([
+      db.collectionGroup('weeks').where('driverUid','==',currentUser.uid).get().catch(()=>({docs:[]})),
+      db.collectionGroup('weeks').where('driverId','==',currentUser.uid).get().catch(()=>({docs:[]})),
+      db.collectionGroup('weeks').where('driverEmail','==',normEmail(currentUser.email)).get().catch(()=>({docs:[]}))
+    ]);
+    const map = new Map();
+    queries.forEach(q=>q.docs.forEach(d=>map.set(d.ref?.path || d.id,d)));
+    const docs = Array.from(map.values()).sort((a,b)=>String(b.data().week||'').localeCompare(String(a.data().week||'')));
+    // Affichage sans doublons : une seule ligne par chauffeur + semaine.
+    const byKey = {};
+    docs.forEach(doc=>{ const w=doc.data(); const key=(w.brokerId||profile.brokerId||'')+'_'+(w.driverCode||w.driverId||'')+'_'+(w.week||''); const old=byKey[key]; if(!old || String(w.updatedAt||w.createdAt||'') > String(old.data.updatedAt||old.data.createdAt||'')) byKey[key]={id:(doc.ref?.path || doc.id),data:w}; });
+    const rows = Object.values(byKey);
+    $('content').innerHTML = card(`<div class="sectionTitle"><h2>Mes relevés</h2><input id="driverWeekSearch" class="search" placeholder="Rechercher semaine ou chauffeur" oninput="filterRows('driverWeeksTable', this.value)"></div><p>Connecté : ${safe(profile.name || currentUser.email)}</p><div class="notice bluebox">Clique sur <b>Télécharger PDF</b> pour générer ton relevé directement, sans demander au broker.</div><div class="wide"><table id="driverWeeksTable"><tr><th>Période</th><th>Semaine</th><th>Chauffeur</th><th>Total</th><th>Statut</th><th>PDF</th></tr>${rows.map(o=>{const w=o.data;return `<tr><td>${weekLabel(w.week,w.from,w.to)}</td><td>${safe(w.week)}</td><td>${safe(w.driverName||'')}</td><td>${money(w.total)}</td><td>${safe(w.status||'disponible')}</td><td><button class="mini" onclick="downloadDriverWeek('${o.id}')">Télécharger PDF</button></td></tr>`}).join('')||'<tr><td colspan="6">Aucun relevé disponible</td></tr>'}</table></div>`);
+  }
+  if(currentTab==='vehicles'){
+    const brokerId=profile.brokerId; const driverId=profile.driverId || currentUser.uid; const week=localStorage.getItem('driver_week')||currentIsoWeek();
+    const [dispSnap, vehSnap, usedSnap]=await Promise.all([
+      bcol('dispatch',brokerId).doc(`${week}_${driverId}`).get().catch(()=>null),
+      bcol('vehicles',brokerId).get().catch(()=>({docs:[]})),
+      bcol('dailyVehicles',brokerId).where('week','==',week).get().catch(()=>({docs:[]}))
+    ]);
+    const vehicles=vehSnap.docs.map(v=>({id:v.id,...v.data()})).filter(v=>v.active!==false);
+    const disp=dispSnap?.exists?dispSnap.data():{}; const days=disp.days||{};
+    const usedBy={}; usedSnap.docs.forEach(d=>{const x=d.data(); if(x.driverId!==driverId) usedBy[x.date+'_'+x.vehicleId]=x;});
+    $('content').innerHTML=card(`<div class="sectionTitle"><h2>Mon planning véhicule</h2><input id="driverWeek" class="search" value="${safe(week)}" onchange="localStorage.setItem('driver_week',this.value);render()"></div><div class="notice bluebox"><b>${weekPeriodFromWeek(week).label}</b><br><span class="muted">Semaine ISO ${safe(week)} — lundi à dimanche.</span></div><div class="notice bluebox">Si le véhicule est déjà déclaré par un autre chauffeur, confirme l’immatriculation seulement si c’est le bon véhicule. Sinon contacte ton broker.</div><div class="wide"><table><tr><th>Date</th><th>Prévu</th><th>Immatriculation</th><th>Confirmation</th><th>Action</th></tr>${weekDatesFromWeek(week).map(date=>{const d=days[date]||{working:false,vehicleName:'Repos'}; const conflict=d.vehicleId?usedBy[date+'_'+d.vehicleId]:null; return `<tr><td>${fmtDateFr(date,{weekday:true,year:false})}</td><td>${d.working===false?'Repos':safe(d.vehicleName||'Véhicule non assigné')}<br><span class="muted">${safe(VEHICLE_LABEL[d.vehicleType]||d.vehicleType||'')}</span></td><td>${safe(d.plate||'')}</td><td>${conflict?`<span class="dangerText">Déjà déclaré par ${safe(conflict.driverName||'un autre chauffeur')}</span><br><span class="muted">Confirme l’immatriculation ou contacte broker</span>`:(d.confirmedByDriver?'<span class="successText">Confirmé</span>':'<span class="muted">En attente</span>')}</td><td>${d.working===false?'<span class="muted">Repos</span>':`<button class="mini green" onclick="confirmDriverVehicle('${week}','${date}','${safe(d.vehicleId||'')}','${safe(d.vehicleName||'')}','${safe(d.plate||'')}','${safe(d.vehicleType||'')}')">Confirmer</button> <button class="mini orange" onclick="reportVehicleIssue('${week}','${date}')">Pas le bon</button>`}</td></tr>`}).join('')}</table></div>`);
+  }
+  if(currentTab==='profile'){
+    $('content').innerHTML=card(`<h2>Profil</h2><p>Nom : ${safe(profile.name||'')}</p><p>Email : ${safe(currentUser.email)}</p><p>Rôle : Chauffeur</p>`);
+  }
+}
+</script>
+
+<button id="pwaInstallBtn" class="pwa-install-btn" type="button">Installer l’application</button>
+<script>
+(function(){
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('./service-worker.js').catch(function(err){ console.warn('SW error', err); });
+    });
+  }
+  var deferredPrompt = null;
+  var installBtn = document.getElementById('pwaInstallBtn');
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) installBtn.classList.add('show');
+  });
+  if (installBtn) {
+    installBtn.addEventListener('click', async function(){
+      if (!deferredPrompt) {
+        alert('Sur iPhone : appuie sur Partager puis Ajouter à l’écran d’accueil.');
+        return;
+      }
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installBtn.classList.remove('show');
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
